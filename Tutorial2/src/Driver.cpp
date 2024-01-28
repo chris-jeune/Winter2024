@@ -15,8 +15,8 @@ point.setY(globalY);
 }
 
 void modifyPointByAdress(Point * point){
-point->setX(globalX);
-point->setY(globalY);
+point->setX(5);
+point->setY(50);
 
 }
 
@@ -33,6 +33,6 @@ int main(){
     cout<<"("<<point.getX()<<","<<point.getY()<<")"<<endl;
     cout<<"Modify by reference: ";
     modifyPointByAdress(ptr);
-    cout<<"("<<point.getX()<<","<<point.getY()<<")"<<endl;
+    cout<<"("<<point.getX()<<","<<point.getY()<<")"<<endl<<endl;
     return 0;
 }
