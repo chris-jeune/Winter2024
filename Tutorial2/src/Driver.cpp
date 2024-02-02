@@ -31,7 +31,7 @@ int main(){
     cout<<"Modify by reference: ";
     modifyPointByReference(point);
     cout<<"("<<point.getX()<<","<<point.getY()<<")"<<endl;
-    cout<<"Modify by reference: ";
+    cout<<"Modify by address: ";
     modifyPointByAdress(ptr);
     cout<<"("<<point.getX()<<","<<point.getY()<<")"<<endl<<endl;
     return 0;
