@@ -7,7 +7,7 @@ public:
     void dequeue();
     int peek();
     bool isEmpty();
-    boolean contains(int item);
+    bool contains(int item);
 };
 
 

@@ -10,7 +10,4 @@ public:
     bool contains(int item);
 };
 
-
-
-
 #endif
