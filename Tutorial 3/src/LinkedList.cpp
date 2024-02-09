@@ -17,7 +17,7 @@ void LinkedList::add(int item){
 
     Node*temp=head;
 
-    for(; temp->next!=nullptr; temp=temp->next)
+    for(; temp->next!=nullptr; temp=temp->next);
 
     temp->next= newNode;
 
