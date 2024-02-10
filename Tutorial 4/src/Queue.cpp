@@ -1,5 +1,6 @@
 #include "Queue.h"
 #include <iostream>
+#include <limits.h>
 
 Queue::Queue(){
     front = nullptr;
@@ -26,6 +27,13 @@ void Queue::dequeue(){
     Node *temp = front;
     front = front->next;
     delete temp;
+}
+
+int Queue::peek() {
+    if (front == nullptr) {
+        return INT_MAX+1;
+    }
+    return front->getValue();
 }
 
 bool Queue::isEmpty(){
