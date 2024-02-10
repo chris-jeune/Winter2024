@@ -2,6 +2,7 @@
 #include <iostream>
 #include <limits.h>
 
+
 Stack::Stack() {
     top = nullptr;
 }
