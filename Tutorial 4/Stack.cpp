@@ -1,5 +1,6 @@
 #include "Stack.h"
 #include <iostream>
+#include <limits.h>
 
 Stack::Stack() {
     top = nullptr;
@@ -26,8 +27,7 @@ void Stack::pop() {
 
 int Stack::peek() {
     if (top == nullptr) {
-        // Handle the case where stack is empty
-        throw std::logic_error("Stack is empty");
+        return INT_MAX+1;
     }
     return top->getValue();
 }

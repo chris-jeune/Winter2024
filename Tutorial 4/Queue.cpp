@@ -8,12 +8,15 @@ Queue::Queue(){
 
 void Queue::enqueue(int item){
     Node *newNode = new Node(item);
-    Node * temp=rear;
+    
     if (isEmpty()) {
         front = newNode;
+        rear = newNode;
     } 
-    rear = newNode;
-    rear->next=temp;
+    else{
+        rear->next=newNode;
+    }
+    rear=newNode;
 }
 
 void Queue::dequeue(){
@@ -23,9 +26,6 @@ void Queue::dequeue(){
     Node *temp = front;
     front = front->next;
     delete temp;
-    if (front == nullptr) {
-        rear = nullptr;
-    }
 }
 
 bool Queue::isEmpty(){
