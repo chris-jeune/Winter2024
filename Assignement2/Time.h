@@ -1,4 +1,5 @@
 // Author: Christian Jeune, ID: 40279265
+
 #ifndef TIME_H
 #define TIME_H
 

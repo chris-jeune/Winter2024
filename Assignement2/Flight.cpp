@@ -13,12 +13,15 @@ int Flight::flightCount = 0;
 
 // Default constructor
 Flight::Flight() {
-    flightIdent = "N/A";
     departure = "N/A";
     arrival = "N/A";
+
     departureTime = new Time();
     arrivalTime = new Time();
+
     flightDuration = 0;
+    flightIdent = createFlightIdent();
+
     flightCount++;
 }
 
@@ -26,8 +29,10 @@ Flight::Flight() {
 Flight::Flight(string dep, string arr, Time depTime, Time arrTime) {
     departure = dep;
     arrival = arr;
+
     departureTime = new Time(depTime);
     arrivalTime = new Time(arrTime);
+
     flightIdent = createFlightIdent();
     flightDuration = flightDurationCalc();
     flightCount++;
@@ -37,8 +42,10 @@ Flight::Flight(string dep, string arr, Time depTime, Time arrTime) {
 Flight::Flight(const Flight &obj) {
     departure = obj.departure;
     arrival = obj.arrival;
+
     departureTime = new Time(*obj.departureTime);
     arrivalTime = new Time(*obj.arrivalTime);
+
     flightIdent = obj.flightIdent;
     flightDuration = obj.flightDuration;
     flightCount++;
@@ -48,7 +55,6 @@ Flight::Flight(const Flight &obj) {
 Flight::~Flight() {
     delete departureTime;
     delete arrivalTime;
-    flightCount--;
 }
 
 // Getters
@@ -97,6 +103,8 @@ void Flight::setAirlineName(string name) {
 // Create flight identifier
 inline string Flight::createFlightIdent() const {
     string initial;
+
+    // Searching for uppercase letters in the airline name
     for(char elem: airlineName) {
         if (isupper(elem)) {
             initial += elem;
@@ -107,13 +115,23 @@ inline string Flight::createFlightIdent() const {
 
 // Calculate flight duration
 inline int Flight::flightDurationCalc() const {
+    // Get the hour and minute of the departure time
     int depHour = departureTime->getHour();
     int depMin = departureTime->getMinute();
+
+    // Get the hour and minute of the arrival time
     int arrHour = arrivalTime->getHour();
     int arrMin = arrivalTime->getMinute();
+
+    // Convert the departure time to minutes
     int depTime = (depHour * 60) + depMin;
+
+    // Convert the arrival time to minutes
     int arrTime = (arrHour * 60) + arrMin;
+
+    // Calculate the duration by subtracting the departure time from the arrival time
     int duration = arrTime - depTime;
+
     return duration;
 }
 

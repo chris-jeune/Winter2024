@@ -21,6 +21,7 @@ private:
     Time *departureTime; /**< The departure time of the flight. */
     Time *arrivalTime; /**< The arrival time of the flight. */
     int flightDuration; /**< The duration of the flight in minutes. */
+    static int flightCount; /**< The count of total flights created. */
 
     /**
      * @brief Create a unique identification code for the flight.
@@ -35,8 +36,6 @@ private:
     inline int flightDurationCalc() const;
 
 public:
-
-    static int flightCount; /**< The count of total flights created. */
 
     /**
      * @brief Default constructor for the Flight class.
