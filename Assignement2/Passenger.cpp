@@ -9,18 +9,16 @@ using namespace std;
 int Passenger::passengerCount = 0;
 
 // Default constructor
-Passenger::Passenger() {
+Passenger::Passenger(): id(createPassengerId()){
     name = "N/A";
-    id = createPassengerId();
     address = "N/A";
     phone = "N/A";
     passengerCount++;
 }
 
 // Parameterized constructor
-Passenger::Passenger(string name, string address, string phone) {
+Passenger::Passenger(string name, string address, string phone): id(createPassengerId()){
     this->name = name;
-    this->id = createPassengerId();
     this->address = address;
     this->phone = phone;
     passengerCount++;
@@ -45,7 +43,7 @@ string Passenger::getPhone() const {
 
 // Setters
 
-void Passenger::setName(string name) {
+void Passenger::setName(string name)  {
     this->name = name;
 }
 
@@ -59,7 +57,7 @@ void Passenger::setPhone(string phone) {
 
 // Create a unique id for the passenger
 string Passenger::createPassengerId() const {
-    return name.substr(0,3)+to_string(passengerCount);
+    return name.substr(0,2)+to_string(passengerCount);
 }
 
  void Passenger::printPassenger() const {

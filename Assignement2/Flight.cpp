@@ -7,12 +7,12 @@
 
 using namespace std;
 
-string Flight::airlineName = "N/A";
+const string Flight::airlineName = "CoenAir";
 
 int Flight::flightCount = 0;
 
 // Default constructor
-Flight::Flight() {
+Flight::Flight(): flightIdent(createFlightIdent()) {
     departure = "N/A";
     arrival = "N/A";
 
@@ -20,33 +20,30 @@ Flight::Flight() {
     arrivalTime = new Time();
 
     flightDuration = 0;
-    flightIdent = createFlightIdent();
 
     flightCount++;
 }
 
 // Parameterized constructor
-Flight::Flight(string dep, string arr, Time depTime, Time arrTime) {
+Flight::Flight(string dep, string arr, Time depTime, Time arrTime): flightIdent(createFlightIdent()){
     departure = dep;
     arrival = arr;
 
     departureTime = new Time(depTime);
     arrivalTime = new Time(arrTime);
 
-    flightIdent = createFlightIdent();
     flightDuration = flightDurationCalc();
     flightCount++;
 }
 
 // Copy constructor
-Flight::Flight(const Flight &obj) {
+Flight::Flight(const Flight &obj) : flightIdent(obj.flightIdent) {
     departure = obj.departure;
     arrival = obj.arrival;
 
     departureTime = new Time(*obj.departureTime);
     arrivalTime = new Time(*obj.arrivalTime);
 
-    flightIdent = obj.flightIdent;
     flightDuration = obj.flightDuration;
     flightCount++;
 }
@@ -94,10 +91,6 @@ void Flight::setDepartureTime(const Time& depTime) {
 
 void Flight::setArrivalTime(const Time& arrTime) {
     *arrivalTime = arrTime;
-}
-
-void Flight::setAirlineName(string name) {
-    airlineName = name;
 }
 
 // Create flight identifier

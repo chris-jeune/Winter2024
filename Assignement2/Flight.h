@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include "Time.h"
+#include <Booking.h>
 
 using namespace std;
 
@@ -14,13 +15,15 @@ using namespace std;
  */
 class Flight {
 private:
-    static string airlineName; /**< The name of the airline. */
+    static const int MAX_SEATS = 150; /**< The number of seats of the flight. */
+    static const string airlineName; /**< The name of the airline. */
     string flightIdent; /**< The identification code of the flight. */
     string departure; /**< The departure city of the flight. */
     string arrival; /**< The arrival city of the flight. */
     Time *departureTime; /**< The departure time of the flight. */
     Time *arrivalTime; /**< The arrival time of the flight. */
     int flightDuration; /**< The duration of the flight in minutes. */
+    Booking *bookings; /**< The bookings of the flight. */
     static int flightCount; /**< The count of total flights created. */
 
     /**
@@ -116,16 +119,6 @@ public:
      * @param arrTime The arrival time of the flight.
      */
     void setArrivalTime(const Time& arrTime);
-
-
-
-    /**
-     * @brief Set the name of the airline.
-     * @param name The name of the airline.
-     */
-    static void setAirlineName(string name);
-
-    
 
     /**
      * @brief Print the details of the flight.

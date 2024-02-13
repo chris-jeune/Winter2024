@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include "Booking.h"
 
 using namespace std;
 
@@ -14,9 +15,10 @@ using namespace std;
 class Passenger {
 private:
     string name; /**< The name of the passenger. */
-    string id; /**< The id of the passenger. */
+    const string id; /**< The id of the passenger. */
     string address; /**< The address of the passenger. */
     string phone; /**< The phone number of the passenger. */
+    Booking *bookings; /**< The bookings of the passenger. */ 
     static int passengerCount; /**< The count of total passengers created. */
     inline string createPassengerId() const;
 
