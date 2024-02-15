@@ -15,10 +15,11 @@ using namespace std;
 class Passenger {
 private:
     string name; /**< The name of the passenger. */
-    const string id; /**< The id of the passenger. */
+    string id; /**< The id of the passenger. */
     string address; /**< The address of the passenger. */
     string phone; /**< The phone number of the passenger. */
     Booking *bookings; /**< The bookings of the passenger. */ 
+    int bookingCount;
     static int passengerCount; /**< The count of total passengers created. */
     inline string createPassengerId() const;
 
@@ -37,6 +38,8 @@ public:
      * @param phone The phone number of the passenger.
      */
     Passenger(string name, string address, string phone);
+
+    Passenger(const Passenger &obj);
 
     /**
      * @brief Get the name of the passenger.
@@ -84,6 +87,10 @@ public:
      * @brief Print the passenger information.
      */
     void printPassenger() const;
+
+    void addBooking(Booking & book);
+
+    void cancelBooking(string bookid);
 
 };
 

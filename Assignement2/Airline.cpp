@@ -2,7 +2,7 @@
 #include "Airline.h"
 
 // Default constructor
-Airline::Airline() : airLineName(""), airLineAddress(""), airLinePhone(""), numFlights(0), flights(new Flight[0]) {}
+Airline::Airline() : airLineName(""), airLineAddress(""), airLinePhone(""), numFlights(0), flights(nullptr) {}
 
 // Parameterized constructor
 Airline::Airline(string name, string address, string phone, int number, Flight *flight)
@@ -12,6 +12,13 @@ Airline::Airline(string name, string address, string phone, int number, Flight *
 
     for (int i = 0; i < number; i++) {
         this->flights[i] = flight[i];
+    }
+}
+
+Airline::Airline(const Airline &obj) : airLineName(obj.airLineName), airLineAddress(obj.airLineAddress), airLinePhone(obj.airLinePhone), numFlights(obj.numFlights) {
+    flights = new Flight[numFlights];
+    for (int i = 0; i < numFlights; i++) {
+        flights[i] = obj.flights[i];
     }
 }
 
@@ -47,7 +54,14 @@ void Airline::setAirLinePhone(string phone) {
 }
 
 // Add a flight to the airline
-void Airline::addFlight(string dep, string arr, Time depTime, Time arrTime) {                                          
+void Airline::addFlight(string dep, string arr, Time depTime, Time arrTime) {         
+
+    if (numFlights==0){
+        flights= new Flight[1];
+        flights[0]= Flight(dep, arr, depTime, arrTime);
+        numFlights++;
+        return;
+    }                                 
     // Create a new array with increased size
     Flight* newFlights = new Flight[numFlights + 1];
     
@@ -142,4 +156,37 @@ void Airline::listFlights(string arrCity) const {
 // Get the number of flights in the airline
 int Airline::getNumFlights() const {
     return numFlights;
+}
+
+void Airline::addBooking(Passenger & passenger, string ident){
+    // Find the index of the flight to book
+    int i = 0;
+
+    for (; i < numFlights; i++) {
+        if (flights[i].getFlightIdent() == ident) {
+            break;
+        }
+    }
+
+
+    Booking * book= new Booking(passenger,flights[i]);
+
+    passenger.addBooking(*book);
+    flights[i].addBooking(*book);
+    
+}
+
+void Airline::cancelBooking(Passenger & pass, string bookid, string flid){
+     // Find the index of the flight to book
+    int i = 0;
+    int j=0;
+    int k=0;
+    for (; i < numFlights; i++) {
+        if (flights[i].getFlightIdent() == flid) {
+            break;
+        }
+    }
+
+    flights[i].cancelBooking(bookid);
+    pass.cancelBooking(bookid);
 }

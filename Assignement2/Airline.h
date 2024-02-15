@@ -33,6 +33,8 @@ public:
      */
     Airline(string name, string address, string phone, int number, Flight *flights);
 
+    Airline(const Airline &obj);
+
     /**
      * @brief Destructor for the Airline class.
      */
@@ -114,6 +116,11 @@ public:
      * @return The number of flights of the airline.
      */
     int getNumFlights() const;
+
+    void addBooking(Passenger &passenger, string ident); 
+
+    void cancelBooking(Passenger & pass, string bookid, string flid);
+
 
 };
 

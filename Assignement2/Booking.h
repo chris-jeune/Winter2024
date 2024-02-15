@@ -7,8 +7,8 @@
 class Booking{
 private:
     Passenger * passenger; /**< The passenger of the booking. */
-    const Flight * const flight; /**< The flight of the booking. */
-    const string seatNumber; /**< The identification code of the seatNumber. */
+    Flight * flight; /**< The flight of the booking. */
+    string seatNumber; /**< The identification code of the seatNumber. */
     static int bookingCount; /**< The count of total bookings created. */
 
     /**
@@ -18,12 +18,17 @@ private:
     inline string createSeatNumber() const;
 
 public:
+    Booking();
+
+
     /**
      * @brief Parameterized constructor for the Booking class.
      * @param passenger The passenger of the booking.
      * @param flight The flight of the booking.
      */
-    Booking(Passenger * passenger, Flight * flight);
+    Booking(Passenger & passenger, Flight & flight);
+
+    Booking(const Booking &obj);
 
     /**
      * @brief Destructor for the Booking class.
@@ -34,13 +39,13 @@ public:
      * @brief Get the passenger of the booking.
      * @return The passenger of the booking.
      */
-    Passenger * getPassenger() const;
+    Passenger  getPassenger() const;
 
     /**
      * @brief Get the flight of the booking.
      * @return The flight of the booking.
      */
-    Flight * getFlight() const;
+    Flight  getFlight() const;
 
     /**
      * @brief Get the seat number of the booking.
@@ -59,6 +64,7 @@ public:
      * @return The count of total bookings created.
      */
     static int getBookingCount();
+
 };
 
 

@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 #include "Time.h"
-#include <Booking.h>
+#include "Booking.h"
 
 using namespace std;
 
@@ -24,6 +24,7 @@ private:
     Time *arrivalTime; /**< The arrival time of the flight. */
     int flightDuration; /**< The duration of the flight in minutes. */
     Booking *bookings; /**< The bookings of the flight. */
+    int bookingCount;
     static int flightCount; /**< The count of total flights created. */
 
     /**
@@ -124,6 +125,11 @@ public:
      * @brief Print the details of the flight.
      */
     void printFlight() const;
+
+    void addBooking(Booking & book); 
+
+    void cancelBooking(string bookid);
+
 };
 
 #endif // FLIGHT_H
