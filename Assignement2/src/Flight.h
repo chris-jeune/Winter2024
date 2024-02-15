@@ -23,7 +23,7 @@ private:
     Time *departureTime; /**< The departure time of the flight. */
     Time *arrivalTime; /**< The arrival time of the flight. */
     int flightDuration; /**< The duration of the flight in minutes. */
-    Booking *bookings; /**< The bookings of the flight. */
+    Booking * bookings; /**< The bookings of the flight. */
     int bookingCount;
     static int flightCount; /**< The count of total flights created. */
 
@@ -31,13 +31,13 @@ private:
      * @brief Create a unique identification code for the flight.
      * @return The identification code of the flight.
      */
-    inline string createFlightIdent() const;
+    string createFlightIdent() const;
 
     /**
      * @brief Calculate the duration of the flight in minutes.
      * @return The duration of the flight in minutes.
      */
-    inline int flightDurationCalc() const;
+    int flightDurationCalc() const;
 
 public:
 

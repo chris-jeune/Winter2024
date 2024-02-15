@@ -3,6 +3,9 @@
 
 #include "Passenger.h"
 #include "Flight.h"
+#include <iostream>
+#include <string>
+#include "Airline.h"
 
 class Booking{
 private:
@@ -15,7 +18,7 @@ private:
      * @brief Create a unique identification code for the booking.
      * @return The identification code of the booking.
      */
-    inline string createSeatNumber() const;
+    string createSeatNumber() const;
 
 public:
     Booking();
@@ -26,7 +29,7 @@ public:
      * @param passenger The passenger of the booking.
      * @param flight The flight of the booking.
      */
-    Booking(Passenger & passenger, Flight & flight);
+    Booking(Passenger & passenger, const string &ident, Airline & airline);
 
     Booking(const Booking &obj);
 
@@ -54,17 +57,17 @@ public:
     string getSeatNumber() const;
 
     /**
-     * @brief Set the seat number of the booking.
-     * @param seatNumber The seat number of the booking.
-     */
-    void setSeatNumber(string seatNumber);
-
-    /**
      * @brief Get the count of total bookings created.
      * @return The count of total bookings created.
      */
     static int getBookingCount();
 
+    /**
+     * @brief Overloaded assignment operator for the Booking class.
+     * @param obj The Booking object to be assigned.
+     * @return The Booking object to be assigned.
+     */
+    Booking & operator=(const Booking &obj);
 };
 
 

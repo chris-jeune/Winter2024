@@ -3,27 +3,30 @@
 #include "Passenger.h"
 #include <iostream>
 #include <string>
+#include "Booking.h"
 
 using namespace std;
 
 int Passenger::passengerCount = 0;
 
 // Default constructor
-Passenger::Passenger(): id(createPassengerId()){
+Passenger::Passenger(){
     name = "N/A";
     address = "N/A";
     phone = "N/A";
     bookingCount=0;
+    id = "###";
     passengerCount++;
 }
 
 // Parameterized constructor
-Passenger::Passenger(string name, string address, string phone): id(createPassengerId()){
+Passenger::Passenger(string name, string address, string phone) {
     this->name = name;
     this->address = address;
     this->phone = phone;
     bookingCount=0;
     passengerCount++;
+    id = createPassengerId();
 }
 
 
@@ -36,6 +39,12 @@ Passenger::Passenger(const Passenger &obj) : id(obj.id) {
     for(int i=0; i<bookingCount;i++){
         bookings[i]=obj.bookings[i];
     }
+}
+
+// Destructor 
+Passenger::~Passenger() {
+    cout<<"Passenger "<<id<<" is being deleted"<<endl;
+    delete[] bookings;
 }
 
 // Getters
@@ -59,7 +68,7 @@ string Passenger::getPhone() const {
 
 void Passenger::setName(string name)  {
     this->name = name;
-    id=name.substr(0,2)+id.substr(2);
+    id=createPassengerId();
 }
 
 void Passenger::setAddress(string address) {
@@ -81,7 +90,7 @@ string Passenger::createPassengerId() const {
     cout << "Address: " << address << endl;
     cout << "Phone: " << phone << endl;
  }
-
+ 
  void Passenger::addBooking(Booking & booking) {
      if (bookingCount==0){
          bookings= new Booking[1];
@@ -128,7 +137,8 @@ string Passenger::createPassengerId() const {
          cout<<"Booking not found"<<endl;
          return;
      }
-
+    
+    bookings[i].getFlight().cancelBooking(bookid);
      for(; i<bookingCount-1;i++){
          bookings[i]=bookings[i+1];
      }

@@ -16,14 +16,29 @@ Booking::Booking(){
     seatNumber="";
 }
 
-Booking::Booking(Passenger & passenger, Flight & flight) : passenger(&passenger),flight(&flight){
+Booking::Booking(Passenger & pass, const string & ident, Airline & airline) {
     bookingCount++;
     seatNumber=createSeatNumber();
+        // Find the index of the flight to book
+    int i = 0;
+
+    for (; i < airline.numFlights; i++) {
+        if (airline.flights[i].getFlightIdent() == ident) {
+            break;
+        }
+    }
+
+    passenger = &pass;
+    flight = &airline.flights[i];
+
+    pass.addBooking(*this);
+    airline.flights[i].addBooking(*this);
+    
 }
 
 Booking::Booking(const Booking &obj) {
-    passenger = obj.passenger;
-    flight = obj.flight;
+    passenger = &(*obj.passenger);
+    flight = &(*obj.flight);
     bookingCount++;
     seatNumber = createSeatNumber();
 }
@@ -58,4 +73,15 @@ string Booking::createSeatNumber() const{
     seatNumber += to_string(column);
 
     return seatNumber;
+}
+
+Booking & Booking::operator=(const Booking &obj) {
+    if (this != &obj) {
+        delete passenger;
+        delete flight;
+        passenger = &(*obj.passenger);
+        flight = &(*obj.flight);
+        seatNumber = obj.seatNumber;
+    }
+    return *this;
 }

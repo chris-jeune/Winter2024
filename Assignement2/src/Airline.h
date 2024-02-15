@@ -6,6 +6,9 @@
 #include <iostream>
 #include <string>
 #include "Flight.h"
+#include "Passenger.h"
+#include "Time.h"
+
 using namespace std;
 
 class Airline
@@ -62,13 +65,13 @@ public:
      * @brief Set the name of the airline.
      * @param name The name of the airline.
      */
-    void setAirLineName(string name);
+    void setAirLineName(const string & name);
 
     /**
      * @brief Set the address of the airline.
      * @param address The address of the airline.
      */
-    void setAirLineAddress(string address);
+    void setAirLineAddress(const string & address);
 
     /**
      * @brief Set the phone number of the airline.
@@ -83,7 +86,7 @@ public:
      * @param depTime departing time
      * @param arrTime arriving time
      */
-    void addFlight(string dep, string arr, Time depTime, Time arrTime);
+    void addFlight(const string & dep, const string & arr, const Time & depTime,const Time & arrTime);
 
     /**
      * @brief Remove a flight from the airline.
@@ -104,12 +107,12 @@ public:
     /**
      * @brief List all flights of the airline departing from a specific city.
      */
-    void listFlights(string depCity) const;
+    void listFlightsDep(string depCity) const;
 
     /**
      * @brief List all flights of the airline arriving to a specific city.
      */
-    void listFlights(string arrCity) const;  
+    void listFlightsArr(string arrCity) const;  
 
     /**
      * @brief Get the number of flights of the airline.
@@ -117,11 +120,11 @@ public:
      */
     int getNumFlights() const;
 
-    void addBooking(Passenger &passenger, string ident); 
+    //void addBooking(Passenger &passenger, const string&ident); 
 
-    void cancelBooking(Passenger & pass, string bookid, string flid);
+    //void cancelBooking(Passenger & pass, string bookid, string flid);
 
-
+    friend class Booking;
 };
 
 #endif // AIRLINE_H

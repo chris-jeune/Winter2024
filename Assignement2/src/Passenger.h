@@ -18,10 +18,10 @@ private:
     string id; /**< The id of the passenger. */
     string address; /**< The address of the passenger. */
     string phone; /**< The phone number of the passenger. */
-    Booking *bookings; /**< The bookings of the passenger. */ 
+    Booking *bookings; /**< The bookings of the passenger. */
     int bookingCount;
     static int passengerCount; /**< The count of total passengers created. */
-    inline string createPassengerId() const;
+    string createPassengerId() const;
 
 public:
 
@@ -40,6 +40,13 @@ public:
     Passenger(string name, string address, string phone);
 
     Passenger(const Passenger &obj);
+
+
+    /**
+     * @brief Destructor for the Passenger class.
+     */
+    ~Passenger();
+
 
     /**
      * @brief Get the name of the passenger.

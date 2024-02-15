@@ -41,9 +41,9 @@ void testAccesserAndDuration(){
     cout << "Arriving city: " << f.getArrival() << endl;
     cout << "Departure time: ";
     f.getDepartureTime().printTime();
-    cout << "Arrival time: ";
+    cout << "\nArrival time: ";
     f.getArrivalTime().printTime();
-    cout << "Flight duration(expected 2 hours): " << f.getFlightDuration() << " hours" << endl;
+    cout << "\nFlight duration(expected 2 hours): " << f.getFlightDuration() << " hours" << endl;
 
 }
 
@@ -54,7 +54,7 @@ void testSetters(){
     Flight f("Toronto", "Vancouver", depTime, arrTime);
     cout << "Original flight" << endl;
     f.printFlight();
-    Time newDepTime(13, 30,0);
+    Time newDepTime(11, 30,0);
     Time newArrTime(15, 30,0);
     f.setDepartureTime(newDepTime);
     f.setArrivalTime(newArrTime);
@@ -63,10 +63,10 @@ void testSetters(){
     f.printFlight();
 }
 
-int main(){
-    testDefaultConstructor();
+int main1(){
+    // testDefaultConstructor();
     // testParameterizedConstructor();
-    // testCopyConstructor();
+     testCopyConstructor();
     // testAccesserAndDuration();
     // testSetters();
     return 0;
