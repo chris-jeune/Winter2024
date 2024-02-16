@@ -155,14 +155,14 @@ string Passenger::createPassengerId() const {
      return 1;
  }
 
-Booking Passenger::getBooking(string bookid) const {
+Booking * Passenger::getBooking(string bookid) const {
     for (int i = 0; i < bookingCount; i++) {
         if (bookings[i].getSeatNumber() == bookid) {
-            return bookings[i];
+            return &bookings[i];
         }
     }
     cout<<"Booking not found"<<endl;
-    return Booking();
+    return nullptr;
 }
 
 void Passenger::listBookings() const {

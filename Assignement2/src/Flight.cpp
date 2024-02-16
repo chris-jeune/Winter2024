@@ -161,12 +161,6 @@ if(bookingCount==0){
     return 1;
 }
 
-else if(bookingCount==MAX_SEATS){
-cout<<"Flight is full"<<endl;
-return 0;
-
-}
-
     Booking * temp= new Booking[bookingCount+1];
     for(int i=0; i<bookingCount;i++){
         temp[i]=bookings[i];
@@ -180,7 +174,7 @@ return 0;
 
     bookingCount++;
 
-return 1;
+    return 1;
 
 
 }
@@ -234,19 +228,19 @@ Flight & Flight::operator=(const Flight &obj){
     return *this;
 }
 
-Booking Flight::getBooking(string bookid) const{
+Booking * Flight::getBooking(string bookid) const{
     int i=0;
 
         for (; i < bookingCount; i++) {
         if (bookings[i].getSeatNumber() == bookid) {
-    return bookings[i];
+    return &bookings[i];
 
             
         }
     }
 
     cout<<"Booking not found"<<endl;
-    return Booking();
+    return nullptr;
 
 }
 

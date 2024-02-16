@@ -46,32 +46,34 @@ void testAirlineCreation() {
 }   
 
 void testBooking(){
-    cout << "Creating a booking" << endl;
-    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
-    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
-    Flight f = createRandomFlight();
-    airline.addFlight(&f);
-    Booking b(p, f.getFlightIdent(), airline);
-    cout<< "Accessing booking from passenger: "<< endl;
-     p.getBooking(b.getSeatNumber()).printBooking();
-    cout<< "Accessing booking from flight: "<<endl;
-     airline.getFlight(f.getFlightIdent())->getBooking(b.getSeatNumber()).printBooking();
-    cout<< "Accessing passenger from booking: "<< endl;
-    b.getPassenger().printPassenger();
-    cout<< "Accessing flight from booking: "<< endl;
-    b.getFlight().printFlight();
-}
-
-void testCancelBooking(){
-    cout << "Creating a booking" << endl;
+    cout << "Creating a booking\n" << endl;
     Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
     Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
     Flight f = createRandomFlight();
     airline.addFlight(&f);
     Booking b(p, f.getFlightIdent(), airline);
     p.listBookings();
-    cout<< "Cancelling booking"<<endl;
-    p.getBooking(b.getSeatNumber()).cancelBooking();
+    cout<< "\nAccessing booking from passenger: "<< endl;
+     p.getBooking(b.getSeatNumber())->printBooking();
+    cout<< "\nAccessing booking from flight: "<<endl;
+     airline.getFlight(f.getFlightIdent())->getBooking(b.getSeatNumber())->printBooking();
+    cout<< "\nAccessing passenger from booking: "<< endl;
+    b.getPassenger()->printPassenger();
+    cout<< "\nAccessing flight from booking: "<< endl;
+    b.getFlight()->printFlight();
+}
+
+void testCancelBooking(){
+    cout << "Creating a booking\n" << endl;
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
+    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
+    Flight f = createRandomFlight();
+    airline.addFlight(&f);
+    Booking b(p, f.getFlightIdent(), airline);
+    cout<< b.getSeatNumber()<<endl;
+    p.listBookings();
+    cout<< "\nCancelling booking\n"<<endl;
+    p.getBooking(b.getSeatNumber())->cancelBooking();
     p.listBookings();
 
 }

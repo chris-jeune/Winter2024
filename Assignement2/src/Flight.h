@@ -105,7 +105,7 @@ public:
      */
     int getFlightDuration() const;
 
-    Booking getBooking(string bookid) const;
+    Booking * getBooking(string bookid) const;
 
     /**
      * @brief Set the departure and arrival cities of the flight.

@@ -37,13 +37,13 @@ public:
      * @brief Get the passenger of the booking.
      * @return The passenger of the booking.
      */
-    Passenger  getPassenger() const;
+    Passenger * getPassenger() const;
 
     /**
      * @brief Get the flight of the booking.
      * @return The flight of the booking.
      */
-    Flight  getFlight() const;
+    Flight * getFlight() const;
 
     /**
      * @brief Get the seat number of the booking.

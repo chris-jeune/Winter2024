@@ -34,39 +34,38 @@ Booking::Booking(Passenger & pass, string ident, Airline & airline) {
         
     }
 
-    else
-
-        if(airline.flights[i].addBooking(*this)){
-        pass.addBooking(*this);
-        passenger = &pass;
-        flight = &airline.flights[i];
-        seatNumber = createSeatNumber();
-        bookingCount++;
-        }
-    
-
-        else{
-            cout << "Booking failed" << endl;
+    else{
+        if(airline.flights[i].bookingCount>=Flight::MAX_SEATS){
+            cout<<"Flight is full"<<endl;
             passenger=nullptr;
             flight= nullptr;
+        }
+        else{
+            passenger = &pass;
+            flight = &airline.flights[i];
+            seatNumber = createSeatNumber();
+            bookingCount++;
+            if(airline.flights[i].addBooking(*this)){
+                pass.addBooking(*this);
+
+            }
+        }
 
     }
-   
 
 }
 
-Booking::Booking(const Booking &obj): passenger(obj.passenger), flight(obj.flight){
-    bookingCount++;
-    seatNumber = createSeatNumber();
+Booking::Booking(const Booking &obj): passenger(obj.passenger), flight(obj.flight), seatNumber(obj.seatNumber){
+    cout<<"Booking copy constructor"<<endl;
 }
 
 
-Passenger  Booking::getPassenger() const{
-    return *passenger;
+Passenger * Booking::getPassenger() const{
+    return passenger;
 }
 
-Flight   Booking::getFlight() const{
-    return *flight;
+Flight  * Booking::getFlight() const{
+    return flight;
 }
 
 string Booking::getSeatNumber() const{

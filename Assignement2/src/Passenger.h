@@ -75,7 +75,7 @@ public:
      */
     string getPhone() const;
 
-    Booking getBooking(string bookid) const;
+    Booking * getBooking(string bookid) const;
 
     /**
      * @brief Set the name of the passenger.
