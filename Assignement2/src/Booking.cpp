@@ -4,7 +4,7 @@
 #include "Passenger.h"
 #include "Flight.h"
 #include <iostream>
-#include <string>
+
 
 using namespace std;
 
@@ -16,10 +16,9 @@ Booking::Booking(){
     seatNumber="";
 }
 
-Booking::Booking(Passenger & pass, const string & ident, Airline & airline) {
-    bookingCount++;
-    seatNumber=createSeatNumber();
-        // Find the index of the flight to book
+Booking::Booking(Passenger & pass, string ident, Airline & airline) {
+
+    // Find the index of the flight to book
     int i = 0;
 
     for (; i < airline.numFlights; i++) {
@@ -28,26 +27,39 @@ Booking::Booking(Passenger & pass, const string & ident, Airline & airline) {
         }
     }
 
-    passenger = &pass;
-    flight = &airline.flights[i];
+    if (i == airline.numFlights) {
+        cout << "Flight not found" << endl;
+        passenger=nullptr;
+        flight= nullptr;
+        
+    }
 
-    pass.addBooking(*this);
-    airline.flights[i].addBooking(*this);
+    else
+
+        if(airline.flights[i].addBooking(*this)){
+        pass.addBooking(*this);
+        passenger = &pass;
+        flight = &airline.flights[i];
+        seatNumber = createSeatNumber();
+        bookingCount++;
+        }
     
+
+        else{
+            cout << "Booking failed" << endl;
+            passenger=nullptr;
+            flight= nullptr;
+
+    }
+   
+
 }
 
-Booking::Booking(const Booking &obj) {
-    passenger = &(*obj.passenger);
-    flight = &(*obj.flight);
+Booking::Booking(const Booking &obj): passenger(obj.passenger), flight(obj.flight){
     bookingCount++;
     seatNumber = createSeatNumber();
 }
 
-Booking::~Booking(){
-    delete passenger;
-    delete flight;
-    bookingCount--;
-}
 
 Passenger  Booking::getPassenger() const{
     return *passenger;
@@ -84,4 +96,24 @@ Booking & Booking::operator=(const Booking &obj) {
         seatNumber = obj.seatNumber;
     }
     return *this;
+}
+
+void Booking::cancelBooking() {
+    if (passenger == nullptr) {
+        cout << "No bookings to cancel" << endl;
+        return;
+    }
+
+    if (passenger->cancelBooking(seatNumber)) {
+        flight->cancelBooking(seatNumber);
+        passenger = nullptr;
+        flight = nullptr;
+    }
+}
+
+void Booking::printBooking() const {
+    cout << "Booking Information" << endl;
+    cout << "Passenger: " << passenger->getName()<<", ID: "<<passenger->getId() << endl;
+    cout << "Flight: " << flight->getFlightIdent() << endl;
+    cout << "Seat Number: " << seatNumber << endl;
 }

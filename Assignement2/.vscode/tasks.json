@@ -2,25 +2,83 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build C++ project",
+            "label": "build",
             "type": "shell",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "make",
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-c",
+                    "mingw32-make"
+                ]
+            },
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "make"
+                ]
+            },
+            "osx": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "make"
+                ]
+            }
         },
         {
-            "label": "Build & run C++ project",
+            "label": "build & run",
             "type": "shell",
-            "group": {
-                "kind": "test",
-                "isDefault": true
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-c",
+                    "'mingw32-make run'"
+                ]
             },
-            "command": "make",
-            "args": [
-                "run"
-            ]
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "'make run'"
+                ]
+            },
+            "osx": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "'make run'"
+                ]
+            }
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-c",
+                    "'mingw32-make clean'"
+                ]
+            },
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "'make clean'"
+                ]
+            },
+            "osx": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "'make clean'"
+                ]
+            }
         }
     ]
 }

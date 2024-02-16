@@ -1,9 +1,10 @@
 // Author: Christian Jeune, ID: 40279265 
 #include "Airline.h"
 #include <iostream>
-#include <string>
 #include "Flight.h"
 #include "Passenger.h"
+#include "Booking.h"
+
 using namespace std;
 
 
@@ -89,6 +90,36 @@ void Airline::addFlight(const string & dep, const string& arr, const Time & depT
     numFlights++;
 }
 
+// Add a flight to the airline
+void Airline::addFlight(const Flight *flight) {         
+
+    if (numFlights==0){
+        flights= new Flight[1];
+        flights[0]= *flight;
+        numFlights++;
+        return;
+    }                                 
+    // Create a new array with increased size
+    Flight* newFlights = new Flight[numFlights + 1];
+    
+    // Copy existing flights to the new array
+    for (int i = 0; i < numFlights; i++) {
+        newFlights[i] = flights[i];
+    }
+    
+    // Add the new flight to the end of the array
+    newFlights[numFlights] = *flight;
+    
+    // Delete the old array
+    delete[] flights;
+    
+    // Update the flights pointer to point to the new array
+    flights = newFlights;
+    
+    // Increment the number of flights
+    numFlights++;
+}
+
 // Remove a flight from the airline
 void Airline::removeFlight(string ident) {
     // Check if there are any flights to remove
@@ -163,7 +194,7 @@ void Airline::listFlightsArr(string arrCity) const {
 int Airline::getNumFlights() const {
     return numFlights;
 }
- /*
+/*
 void Airline::addBooking(Passenger & passenger, const string& ident){
     // Find the index of the flight to book
     int i = 0;
@@ -177,11 +208,14 @@ void Airline::addBooking(Passenger & passenger, const string& ident){
 
     Booking * book= new Booking(passenger,flights[i]);
 
-    passenger.addBooking(*book);
-    flights[i].addBooking(*book);
+    if(flights[i].addBooking(*book)){
+        passenger.addBooking(*book);
+    }
     
-}*/
-
+    
+}
+*/
+ 
  /*
 void Airline::cancelBooking(Passenger & pass, string bookid, string flid){
      // Find the index of the flight to book
@@ -193,6 +227,19 @@ void Airline::cancelBooking(Passenger & pass, string bookid, string flid){
         }
     }
 
-    flights[i].cancelBooking(bookid);
-    pass.cancelBooking(bookid);
+    if(pass.cancelBooking(bookid)){
+        flights[i].cancelBooking(bookid);
+    }
+
 }*/
+
+Flight * Airline::getFlight(string ident){
+    for (int i = 0; i < numFlights; i++) {
+        if (flights[i].getFlightIdent() == ident) {
+            return &flights[i];
+        }
+    }
+
+    cout<<"Flight not found"<<endl;
+    return nullptr;
+}

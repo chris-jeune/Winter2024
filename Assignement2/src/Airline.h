@@ -3,11 +3,10 @@
 #ifndef AIRLINE_H
 #define AIRLINE_H
 
-#include <iostream>
+#include "Time.h"
 #include <string>
 #include "Flight.h"
 #include "Passenger.h"
-#include "Time.h"
 
 using namespace std;
 
@@ -87,6 +86,7 @@ public:
      * @param arrTime arriving time
      */
     void addFlight(const string & dep, const string & arr, const Time & depTime,const Time & arrTime);
+    void addFlight(const Flight *flight);
 
     /**
      * @brief Remove a flight from the airline.
@@ -124,7 +124,10 @@ public:
 
     //void cancelBooking(Passenger & pass, string bookid, string flid);
 
+    Flight * getFlight(string ident);
+
     friend class Booking;
+
 };
 
 #endif // AIRLINE_H

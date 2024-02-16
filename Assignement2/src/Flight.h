@@ -3,12 +3,11 @@
 #ifndef FLIGHT_H
 #define FLIGHT_H
 
-#include <iostream>
 #include <string>
 #include "Time.h"
-#include "Booking.h"
-
 using namespace std;
+
+class Booking;
 
 /**
  * @brief The Flight class represents a flight with its departure and arrival information.
@@ -38,6 +37,10 @@ private:
      * @return The duration of the flight in minutes.
      */
     int flightDurationCalc() const;
+
+    bool addBooking(Booking & book); 
+
+    void cancelBooking(string bookid);
 
 public:
 
@@ -102,6 +105,8 @@ public:
      */
     int getFlightDuration() const;
 
+    Booking getBooking(string bookid) const;
+
     /**
      * @brief Set the departure and arrival cities of the flight.
      * @param dep The departure city of the flight.
@@ -126,9 +131,13 @@ public:
      */
     void printFlight() const;
 
-    void addBooking(Booking & book); 
 
-    void cancelBooking(string bookid);
+
+    Flight & operator=(const Flight &obj);
+
+    void listBookings() const;
+
+    friend class Booking;
 
 };
 

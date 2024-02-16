@@ -1,16 +1,14 @@
 // Authot: Christian Jeune, ID: 40279265
 
 #include "Passenger.h"
-#include <iostream>
-#include <string>
 #include "Booking.h"
-
+#include <iostream>
 using namespace std;
 
 int Passenger::passengerCount = 0;
 
 // Default constructor
-Passenger::Passenger(){
+Passenger::Passenger(): bookings(nullptr){
     name = "N/A";
     address = "N/A";
     phone = "N/A";
@@ -20,7 +18,7 @@ Passenger::Passenger(){
 }
 
 // Parameterized constructor
-Passenger::Passenger(string name, string address, string phone) {
+Passenger::Passenger(string name, string address, string phone): bookings(nullptr){
     this->name = name;
     this->address = address;
     this->phone = phone;
@@ -44,7 +42,9 @@ Passenger::Passenger(const Passenger &obj) : id(obj.id) {
 // Destructor 
 Passenger::~Passenger() {
     cout<<"Passenger "<<id<<" is being deleted"<<endl;
-    delete[] bookings;
+    if(bookingCount!=0){
+        delete[] bookings;
+    }
 }
 
 // Getters
@@ -119,10 +119,10 @@ string Passenger::createPassengerId() const {
      bookingCount++;
  }
 
- void Passenger::cancelBooking(string bookid) {
+ bool Passenger::cancelBooking(string bookid) {
      if(bookingCount==0){
          cout<<"No bookings to cancel"<<endl;
-         return;
+         return 0;
      }
      
      int i=0;
@@ -135,10 +135,10 @@ string Passenger::createPassengerId() const {
 
      if(i==bookingCount){
          cout<<"Booking not found"<<endl;
-         return;
+         return 0;
      }
-    
-    bookings[i].getFlight().cancelBooking(bookid);
+
+
      for(; i<bookingCount-1;i++){
          bookings[i]=bookings[i+1];
      }
@@ -151,4 +151,28 @@ string Passenger::createPassengerId() const {
 
      delete[] bookings;
      bookings= temp;
+
+     return 1;
  }
+
+Booking Passenger::getBooking(string bookid) const {
+    for (int i = 0; i < bookingCount; i++) {
+        if (bookings[i].getSeatNumber() == bookid) {
+            return bookings[i];
+        }
+    }
+    cout<<"Booking not found"<<endl;
+    return Booking();
+}
+
+void Passenger::listBookings() const {
+    if (bookingCount == 0) {
+        cout << "No bookings for " << name << " (" << id << ")" << endl;
+        return;
+    }
+    cout << "Bookings for " << name << " (" << id << "):" << endl;
+    for (int i = 0; i < bookingCount; i++) {
+        cout << "Booking " << i + 1 << " : " <<bookings[i].getSeatNumber() << endl;
+        
+    }
+}

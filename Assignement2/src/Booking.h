@@ -1,11 +1,11 @@
 #ifndef BOOKING_H
 #define BOOKING_H
 
-#include "Passenger.h"
-#include "Flight.h"
-#include <iostream>
+
 #include <string>
 #include "Airline.h"
+
+using namespace std;
 
 class Booking{
 private:
@@ -29,14 +29,9 @@ public:
      * @param passenger The passenger of the booking.
      * @param flight The flight of the booking.
      */
-    Booking(Passenger & passenger, const string &ident, Airline & airline);
+    Booking(Passenger & pass, string ident, Airline & airline);
 
     Booking(const Booking &obj);
-
-    /**
-     * @brief Destructor for the Booking class.
-     */
-    ~Booking();
 
     /**
      * @brief Get the passenger of the booking.
@@ -68,6 +63,12 @@ public:
      * @return The Booking object to be assigned.
      */
     Booking & operator=(const Booking &obj);
+
+    void cancelBooking();
+
+    void printBooking() const; 
+
+    
 };
 
 

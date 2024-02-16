@@ -49,7 +49,7 @@ void testMutatorPass() {
     p.printPassenger();
 }
 
-int main() {
+int main2() {
     // testDefaultConstructorPass();
     // testParameterizedConstructorPass();
     // testCopyConstructorPass();
