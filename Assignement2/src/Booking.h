@@ -9,8 +9,8 @@ using namespace std;
 
 class Booking{
 private:
-    Passenger * passenger; /**< The passenger of the booking. */
-    Flight * flight; /**< The flight of the booking. */
+    Passenger * passenger=nullptr; /**< The passenger of the booking. */
+    Flight * flight=nullptr; /**< The flight of the booking. */
     string seatNumber; /**< The identification code of the seatNumber. */
     static int bookingCount; /**< The count of total bookings created. */
 
@@ -64,7 +64,7 @@ public:
      */
     Booking & operator=(const Booking &obj);
 
-    void cancelBooking();
+    static void cancelBooking(Passenger& pass, string bookid, string flid, Airline & airline);
 
     void printBooking() const; 
 

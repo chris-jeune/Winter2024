@@ -97,16 +97,27 @@ Booking & Booking::operator=(const Booking &obj) {
     return *this;
 }
 
-void Booking::cancelBooking() {
-    if (passenger == nullptr) {
+void Booking::cancelBooking(Passenger & pass, string bookid, string flid, Airline & airline) {
+    if ( pass.getBooking(bookid)== nullptr) {
         cout << "No bookings to cancel" << endl;
         return;
     }
+    int i = 0;
 
-    if (passenger->cancelBooking(seatNumber)) {
-        flight->cancelBooking(seatNumber);
-        passenger = nullptr;
-        flight = nullptr;
+    for (; i < airline.numFlights; i++) {
+        if (airline.flights[i].getFlightIdent() == flid) {
+            break;
+        }
+    }
+
+    if (i == airline.numFlights) {
+        cout << "Flight not found" << endl;
+    }
+
+    else {
+        if (pass.cancelBooking(bookid)) {
+        airline.flights[i].cancelBooking(bookid);
+    }
     }
 }
 

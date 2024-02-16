@@ -46,34 +46,44 @@ void testAirlineCreation() {
 }   
 
 void testBooking(){
+    string book;
     cout << "Creating a booking\n" << endl;
     Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
     Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
     Flight f = createRandomFlight();
     airline.addFlight(&f);
     Booking b(p, f.getFlightIdent(), airline);
+    cout<<"List of bookings from passenger"<<endl;
     p.listBookings();
-    cout<< "\nAccessing booking from passenger: "<< endl;
-     p.getBooking(b.getSeatNumber())->printBooking();
+    cout<<"\nList of bookings from flight"<<endl;
+    airline.getFlight(f.getFlightIdent())->listBookings();
+    cout<< "\nWhich booking would you like to access "<< endl;
+    cin>>book;
+    cout<< "\nAccessing booking from passenger: "<<endl;
     cout<< "\nAccessing booking from flight: "<<endl;
-     airline.getFlight(f.getFlightIdent())->getBooking(b.getSeatNumber())->printBooking();
-    cout<< "\nAccessing passenger from booking: "<< endl;
-    b.getPassenger()->printPassenger();
-    cout<< "\nAccessing flight from booking: "<< endl;
-    b.getFlight()->printFlight();
+    airline.getFlight(f.getFlightIdent())->getBooking(book)->printBooking();
+
 }
 
 void testCancelBooking(){
+    string book;
+    string flid;
     cout << "Creating a booking\n" << endl;
     Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
     Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
     Flight f = createRandomFlight();
     airline.addFlight(&f);
+    cout<<"Listing all flights from Airline "<<airline.getAirLineName()<<endl;
+    airline.listFlights();
     Booking b(p, f.getFlightIdent(), airline);
-    cout<< b.getSeatNumber()<<endl;
+    cout<<"List of bookings from passenger"<<endl;
     p.listBookings();
+    cout<<"\nWhich booking would you like to cancel "<<endl;
+    cin>>book;
+    cout<< "\nWhich flight is the booking from "<<endl;
+    cin>>flid;
     cout<< "\nCancelling booking\n"<<endl;
-    p.getBooking(b.getSeatNumber())->cancelBooking();
+    Booking::cancelBooking(p, book, flid,airline);
     p.listBookings();
 
 }
