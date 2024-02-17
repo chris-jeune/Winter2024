@@ -3,27 +3,26 @@
 #ifndef FLIGHT_H
 #define FLIGHT_H
 
+
 #include <string>
+
 #include "Time.h"
 using namespace std;
-
-class Booking;
 
 /**
  * @brief The Flight class represents a flight with its departure and arrival information.
  */
 class Flight {
 private:
-    static const int MAX_SEATS = 150; /**< The number of seats of the flight. */
+    static const int MAX_SEATS = 156; /**< The number of seats of the flight. */
     static const string airlineName; /**< The name of the airline. */
     string flightIdent; /**< The identification code of the flight. */
     string departure; /**< The departure city of the flight. */
     string arrival; /**< The arrival city of the flight. */
     Time *departureTime; /**< The departure time of the flight. */
     Time *arrivalTime; /**< The arrival time of the flight. */
+    Booking *bookings; /**< The bookings of the flight. */
     int flightDuration; /**< The duration of the flight in minutes. */
-    Booking * bookings; /**< The bookings of the flight. */
-    int bookingCount;
     static int flightCount; /**< The count of total flights created. */
 
     /**
@@ -38,9 +37,7 @@ private:
      */
     int flightDurationCalc() const;
 
-    bool addBooking(Booking & book); 
 
-    void cancelBooking(string bookid);
 
 public:
 
@@ -105,8 +102,6 @@ public:
      */
     int getFlightDuration() const;
 
-    Booking * getBooking(string bookid) const;
-
     /**
      * @brief Set the departure and arrival cities of the flight.
      * @param dep The departure city of the flight.
@@ -130,14 +125,6 @@ public:
      * @brief Print the details of the flight.
      */
     void printFlight() const;
-
-
-
-    Flight & operator=(const Flight &obj);
-
-    void listBookings() const;
-
-    friend class Booking;
 
 };
 

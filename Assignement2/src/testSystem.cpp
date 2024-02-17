@@ -1,7 +1,6 @@
 #include "Airline.h"
 #include "Flight.h"
 #include "Passenger.h"
-#include "Booking.h"
 #include "Time.h"
 #include <iostream>
 #include <random>
@@ -43,54 +42,16 @@ void testAirlineCreation() {
     cout<< "Airline Name: " << airline.getAirLineName() << endl;
     cout<< "Airline Address: " << airline.getAirLineAddress() << endl;
     cout<< "Airline Phone: " << airline.getAirLinePhone() << endl;
-}   
+}  
 
-void testBooking(){
-    string book;
-    cout << "Creating a booking\n" << endl;
-    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
-    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
-    Flight f = createRandomFlight();
-    airline.addFlight(&f);
-    Booking b(p, f.getFlightIdent(), airline);
-    cout<<"List of bookings from passenger"<<endl;
-    p.listBookings();
-    cout<<"\nList of bookings from flight"<<endl;
-    airline.getFlight(f.getFlightIdent())->listBookings();
-    cout<< "\nWhich booking would you like to access "<< endl;
-    cin>>book;
-    cout<< "\nAccessing booking from passenger: "<<endl;
-    cout<< "\nAccessing booking from flight: "<<endl;
-    airline.getFlight(f.getFlightIdent())->getBooking(book)->printBooking();
+
+void testListFlights() {
 
 }
 
-void testCancelBooking(){
-    string book;
-    string flid;
-    cout << "Creating a booking\n" << endl;
-    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
-    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
-    Flight f = createRandomFlight();
-    airline.addFlight(&f);
-    cout<<"Listing all flights from Airline "<<airline.getAirLineName()<<endl;
-    airline.listFlights();
-    Booking b(p, f.getFlightIdent(), airline);
-    cout<<"List of bookings from passenger"<<endl;
-    p.listBookings();
-    cout<<"\nWhich booking would you like to cancel "<<endl;
-    cin>>book;
-    cout<< "\nWhich flight is the booking from "<<endl;
-    cin>>flid;
-    cout<< "\nCancelling booking\n"<<endl;
-    Booking::cancelBooking(p, book, flid,airline);
-    p.listBookings();
-
-}
 
 int main(){
     //testAirlineCreation();
     // testBooking();
-    testCancelBooking();
     return 0;
 }

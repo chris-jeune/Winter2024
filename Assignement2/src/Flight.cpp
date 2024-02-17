@@ -2,7 +2,6 @@
 
 #include "Flight.h"
 #include <iostream>
-#include "Booking.h"
 
 using namespace std;
 
@@ -11,16 +10,15 @@ const string Flight::airlineName = "CoenAir";
 int Flight::flightCount = 0;
 
 // Default constructor
-Flight::Flight(): flightIdent("N/A"), departureTime( new Time()), arrivalTime(new Time()), bookings(nullptr) {
+Flight::Flight(): flightIdent("N/A"), departureTime( new Time()), arrivalTime(new Time()){
     departure = "N/A";
     arrival = "N/A";
 
     flightDuration = 0;
-    bookingCount = 0;
 }
 
 // Parameterized constructor
-Flight::Flight(string dep, string arr, Time depTime, Time arrTime):departureTime(new Time(depTime)), arrivalTime(new Time(arrTime)), bookings(nullptr) {
+Flight::Flight(string dep, string arr, Time depTime, Time arrTime):departureTime(new Time(depTime)), arrivalTime(new Time(arrTime)) {
     departure = dep;
     arrival = arr;
 
@@ -28,7 +26,6 @@ Flight::Flight(string dep, string arr, Time depTime, Time arrTime):departureTime
     flightCount++;
 
     flightIdent = createFlightIdent();
-    bookingCount = 0;
 }
 
 // Copy constructor
@@ -41,20 +38,18 @@ Flight::Flight(const Flight &obj):departureTime(new Time(*obj.departureTime)), a
 
     flightIdent = createFlightIdent();
 
-    bookingCount=obj.bookingCount;
-    bookings= new Booking[bookingCount];
-    for(int i=0; i<bookingCount;i++){
-        bookings[i]=obj.bookings[i];
-    }
 }
 
 // Destructor
 Flight::~Flight() {
     cout<<"Flight "<<flightIdent<<" is being deleted"<<endl;
-    delete departureTime;
-    delete arrivalTime;
-    if(bookingCount!=0){
-        delete[] bookings;
+    if(departureTime != nullptr) {
+        delete departureTime;
+        departureTime = nullptr;
+    }
+    if(arrivalTime != nullptr) {
+        delete arrivalTime;
+        arrivalTime = nullptr;
     }
 }
 
@@ -150,107 +145,4 @@ void Flight::printFlight() const {
     arrivalTime->printTime();
     cout << endl;
     cout << "Flight Duration: " << flightDuration << " hours" << endl;
-}
-
-
-bool Flight::addBooking(Booking & book){
-if(bookingCount==0){
-    bookings= new Booking[1];
-    bookings[0]=book;
-    bookingCount++;
-    return 1;
-}
-
-    Booking * temp= new Booking[bookingCount+1];
-    for(int i=0; i<bookingCount;i++){
-        temp[i]=bookings[i];
-    }
-
-    temp[bookingCount]=book;
-
-    delete[] bookings;
-
-    bookings= temp;
-
-    bookingCount++;
-
-    return 1;
-
-
-}
-
-void Flight::cancelBooking(string bookid){
-    int i=0;
-
-        for (; i < bookingCount; i++) {
-        if (bookings[i].getSeatNumber() == bookid) {
-            break;
-        }
-    }
-    for(; i<bookingCount-1;i++){
-        bookings[i]=bookings[i+1];
-    }
-
-    Booking * temp= new Booking[--bookingCount];
-
-    for(int i=0; i<bookingCount;i++){
-        temp[i]=bookings[i];
-    }
-
-    delete[] bookings;
-    bookings= temp;
-
-}
-
-Flight & Flight::operator=(const Flight &obj){
-    if(this==&obj){
-        return *this;
-    }
-
-    delete departureTime;
-    delete arrivalTime;
-    if(bookingCount!=0){
-        delete[] bookings;
-    }
-
-    departureTime= new Time(*obj.departureTime);
-    arrivalTime= new Time(*obj.arrivalTime);
-    departure= obj.departure;
-    arrival= obj.arrival;
-    flightDuration= obj.flightDuration;
-    flightIdent= obj.flightIdent;
-    bookingCount=obj.bookingCount;
-    bookings= new Booking[bookingCount];
-    for(int i=0; i<bookingCount;i++){
-        bookings[i]=obj.bookings[i];
-    }
-
-    return *this;
-}
-
-Booking * Flight::getBooking(string bookid) const{
-    int i=0;
-
-        for (; i < bookingCount; i++) {
-        if (bookings[i].getSeatNumber() == bookid) {
-    return &bookings[i];
-
-            
-        }
-    }
-
-    cout<<"Booking not found"<<endl;
-    return nullptr;
-
-}
-
-void Flight::listBookings() const{
-    if(bookingCount==0){
-        cout<<"No bookings for flight "<<flightIdent<<endl;
-        return;
-    }
-    cout<<"Bookings for flight "<<flightIdent<<endl;
-    for(int i=0; i<bookingCount;i++){
-        cout<<"Booking "<<i+1<<": "<<bookings[i].getSeatNumber()<<endl;
-    }
 }
