@@ -1,6 +1,7 @@
 // Author: Christian Jeune, ID: 40279265
 
 #include "Flight.h"
+#include "Booking.h"
 #include <iostream>
 
 using namespace std;
@@ -10,46 +11,47 @@ const string Flight::airlineName = "CoenAir";
 int Flight::flightCount = 0;
 
 // Default constructor
-Flight::Flight(): flightIdent("N/A"), departureTime( new Time()), arrivalTime(new Time()){
-    departure = "N/A";
-    arrival = "N/A";
-
+Flight::Flight():departure("N/A"), arrival("N/A") ,flightIdent("N/A"), departureTime( new Time()), arrivalTime(new Time()){
     flightDuration = 0;
+    bookingCount = 0;
+
+
 }
 
 // Parameterized constructor
-Flight::Flight(string dep, string arr, Time depTime, Time arrTime):departureTime(new Time(depTime)), arrivalTime(new Time(arrTime)) {
-    departure = dep;
-    arrival = arr;
-
+Flight::Flight(string dep, string arr, Time depTime, Time arrTime):departure(dep), arrival(arr), departureTime(new Time(depTime)), arrivalTime(new Time(arrTime)) {
     flightDuration = flightDurationCalc();
     flightCount++;
 
     flightIdent = createFlightIdent();
+    bookingCount = 0;
+
 }
 
 // Copy constructor
-Flight::Flight(const Flight &obj):departureTime(new Time(*obj.departureTime)), arrivalTime (new Time(*obj.arrivalTime)){
-    departure = obj.departure;
-    arrival = obj.arrival;
-
+Flight::Flight(const Flight &obj):departure(obj.departure), arrival(obj.arrival),departureTime(new Time(*obj.departureTime)), arrivalTime (new Time(*obj.arrivalTime)){
     flightDuration = obj.flightDuration;
-    flightCount++;
 
+    bookingCount = obj.bookingCount;
     flightIdent = createFlightIdent();
+    if(bookingCount>0){
+    bookings= new Booking[bookingCount];
+    for(int i=0; i<bookingCount; i++){
+        bookings[i].setPassenger(obj.bookings[i].getPassenger());
+        bookings[i].setSeatNumber(obj.bookings[i].getSeatNumber());
+        bookings[i].setFlight(this);
+    }
+    }
 
 }
 
 // Destructor
 Flight::~Flight() {
     cout<<"Flight "<<flightIdent<<" is being deleted"<<endl;
-    if(departureTime != nullptr) {
-        delete departureTime;
-        departureTime = nullptr;
-    }
-    if(arrivalTime != nullptr) {
-        delete arrivalTime;
-        arrivalTime = nullptr;
+    delete departureTime;
+    delete arrivalTime;
+    if (bookingCount>0){
+        delete [] bookings;
     }
 }
 
@@ -145,4 +147,43 @@ void Flight::printFlight() const {
     arrivalTime->printTime();
     cout << endl;
     cout << "Flight Duration: " << flightDuration << " hours" << endl;
+}
+
+void Flight::listBookings()const{
+    cout<<"Bookings for Flight "<<flightIdent<<endl;
+    for (int i=0; i<bookingCount;i++){
+
+            cout<<"Seat: "<<bookings[i].getSeatNumber()<<endl;
+            cout<<"Passenger: "<<bookings[i].getPassenger()->getName()<<endl;
+            cout<<"Phone: "<<bookings[i].getPassenger()->getPhone()<<endl;
+            cout<<"Address: "<<bookings[i].getPassenger()->getAddress()<<endl;
+            cout<<endl;
+    }
+
+}
+
+void Flight::setFlightIdent(string id){
+    flightIdent = id;
+}
+
+void Flight::addBooking(Booking * b, Passenger *p){
+    if(bookingCount==0){
+        bookings = new Booking[1];
+        bookings[0].setPassenger(p);
+        bookings[0].setSeatNumber(b->getSeatNumber());
+        bookings[0].setFlight(this);
+    }
+    else{
+        Booking *temp = new Booking[bookingCount+1];
+        for(int i=0; i<bookingCount; i++){
+            temp[i].setPassenger(p);
+            temp[i].setSeatNumber(bookings[i].getSeatNumber());
+            temp[i].setFlight(this);
+        }
+        temp[bookingCount].setPassenger(p);
+        temp[bookingCount].setSeatNumber(b->getSeatNumber());
+        temp[bookingCount].setFlight(this);
+        delete [] bookings;
+        bookings = temp;
+    }
 }

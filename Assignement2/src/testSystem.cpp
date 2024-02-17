@@ -1,6 +1,7 @@
 #include "Airline.h"
 #include "Flight.h"
 #include "Passenger.h"
+#include "Booking.h"
 #include "Time.h"
 #include <iostream>
 #include <random>
@@ -37,21 +38,56 @@ Flight createRandomFlight() {
 
 void testAirlineCreation() {
     cout << "Creating an airline" << endl;
-    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0, nullptr);
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
     cout << "Airline created" << endl;
     cout<< "Airline Name: " << airline.getAirLineName() << endl;
     cout<< "Airline Address: " << airline.getAirLineAddress() << endl;
     cout<< "Airline Phone: " << airline.getAirLinePhone() << endl;
-}  
+}   
 
-
-void testListFlights() {
+void testBookingCreation(){
+    cout << "Creating a booking\n" << endl;
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
+    Flight f = createRandomFlight();
+    airline.addFlight(f);
+    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
+    Booking b(p, f.getFlightIdent(), airline);
+    cout<<"List of bookings from passenger"<<endl;
+    p.listBookings();
+    cout<<"\nList of bookings from flight"<<endl;
+    airline.getFlight(f.getFlightIdent()).listBookings();
 
 }
 
+void testCancelBooking(){
+    string book;
+    string flid;
+    cout << "Creating a booking\n" << endl;
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
+    cout<<"Airline created"<<endl;
+    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
+    cout<<"Passenger created"<<endl;
+    Flight f = createRandomFlight();
+    cout<<"Flight created"<<endl;
+    airline.addFlight(f);
+    cout<<"Listing all flights from Airline "<<airline.getAirLineName()<<endl;
+    airline.listFlights();
+    Booking b(p, f.getFlightIdent(), airline);
+    cout<<"List of bookings from passenger"<<endl;
+    p.listBookings();
+    cout<<"\nWhich booking would you like to cancel "<<endl;
+    cin>>book;
+    cout<< "\nWhich flight is the booking from "<<endl;
+    cin>>flid;
+    cout<< "\nCancelling booking\n"<<endl;
+    Booking::cancelBooking(p, book, flid,airline);
+    p.listBookings();
+
+}
 
 int main(){
     //testAirlineCreation();
-    // testBooking();
+    testBookingCreation();
+    // testCancelBooking();
     return 0;
 }

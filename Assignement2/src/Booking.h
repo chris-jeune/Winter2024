@@ -1,41 +1,80 @@
-#include "Passenger.h"
-#include "Flight.h"
+#ifndef BOOKING_H
+#define BOOKING_H
+
+
 #include <string>
+#include "Airline.h"
 
-class Booking {
+using namespace std;
+
+class Booking{
+    
 private:
-    Passenger passenger;
-    Flight flight;
-    std::string seatNumber;
+    Passenger * passenger; /**< The passenger of the booking. */
+    Flight * flight; /**< The flight of the booking. */
+    string seatNumber; /**< The identification code of the seatNumber. */
+    static int bookingCount; /**< The count of total bookings created. */
 
-    std::string createSeatNumber();
-    static int bookingCount;
 
 public:
-    // Default constructor
-    Booking() {}
+    Booking();
 
-    // Constructor with parameters
-    Booking(const Passenger& passenger, const Flight& flight)
-        : passenger(passenger), flight(flight), seatNumber(seatNumber) {}
 
-    // Copy constructor
-    Booking(const Booking& other)
-        : passenger(other.passenger), flight(other.flight), seatNumber(other.seatNumber) {}
+    /**
+     * @brief Parameterized constructor for the Booking class.
+     * @param passenger The passenger of the booking.
+     * @param flight The flight of the booking.
+     */
+    Booking(Passenger & pass, string ident, Airline & airline);
 
-    // Destructor
-    ~Booking() {}
+    Booking(const Booking &obj);
 
-    // Getters
-    const Passenger& getPassenger() const {
-        return passenger;
-    }
+    /**
+     * @brief Destructor for the Booking class.
+     */
+    ~Booking();
 
-    const Flight& getFlight() const {
-        return flight;
-    }
+    /**
+     * @brief Get the passenger of the booking.
+     * @return The passenger of the booking.
+     */
+    Passenger * getPassenger() const;
 
-    const std::string& getSeatNumber() const {
-        return seatNumber;
-    }
+    /**
+     * @brief Get the flight of the booking.
+     * @return The flight of the booking.
+     */
+    Flight * getFlight() const;
+
+    /**
+     * @brief Get the seat number of the booking.
+     * @return The seat number of the booking.
+     */
+    string getSeatNumber() const;
+
+    void setPassenger(Passenger * pass);
+
+    void setFlight(Flight * fl);
+
+    void setSeatNumber(string seat);
+
+    /**
+     * @brief Get the count of total bookings created.
+     * @return The count of total bookings created.
+     */
+    static int getBookingCount();
+
+    /**
+     * @brief Overloaded assignment operator for the Booking class.
+     * @param obj The Booking object to be assigned.
+     * @return The Booking object to be assigned.
+     */
+
+    static void cancelBooking(Passenger& pass, string bookid, string flid, Airline & airline);
+
+    
 };
+
+
+
+#endif // BOOKING_H

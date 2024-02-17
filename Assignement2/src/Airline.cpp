@@ -6,35 +6,49 @@
 
 using namespace std;
 
-
 // Default constructor
-Airline::Airline() : airLineName(""), airLineAddress(""), airLinePhone(""), numFlights(0), flights(nullptr) {}
+Airline::Airline() : airLineName("N/A"), airLineAddress("N/A"), airLinePhone("N/A"), numFlights(0) {
+    flights = new Flight[0];
+}
 
 // Parameterized constructor
-Airline::Airline(string name, string address, string phone, int number, Flight *flight)
+Airline::Airline(string name, string address, string phone, int number)
     : airLineName(name), airLineAddress(address), airLinePhone(phone), numFlights(number) {
     
     this->flights = new Flight[number];
 
-    for (int i = 0; i < number; i++) {
-        this->flights[i] = flight[i];
-    }
 }
 
 Airline::Airline(const Airline &obj) : airLineName(obj.airLineName), airLineAddress(obj.airLineAddress), airLinePhone(obj.airLinePhone), numFlights(obj.numFlights) {
     flights = new Flight[numFlights];
     for (int i = 0; i < numFlights; i++) {
-        flights[i] = obj.flights[i];
+        flights[i].setCities(obj.flights[i].getDeparture(), obj.flights[i].getArrival());
+        flights[i].setArrivalTime(obj.flights[i].getArrivalTime());
+        flights[i].setDepartureTime(obj.flights[i].getDepartureTime());
+        flights[i].setFlightIdent(obj.flights[i].getFlightIdent());
     }
 }
 
-// Destructor
-Airline::~Airline() {
-    if (flights != nullptr) {
-        delete[] flights;
-        flights = nullptr;
+Airline::Airline(string name, string address, string phone, Flight * list, int number): airLineName(name), airLineAddress(address), airLinePhone(phone), numFlights(number) {
+    flights= new Flight[number];
+    for (int i = 0; i < number; i++) {
+        flights[i].setCities(list[i].getDeparture(), list[i].getArrival());
+        flights[i].setArrivalTime(list[i].getArrivalTime());
+        flights[i].setDepartureTime(list[i].getDepartureTime());
+        flights[i].setFlightIdent(list[i].getFlightIdent());
     }
 }
+
+
+// Destructor
+Airline::~Airline() {
+    cout << "Airline " << airLineName << " is being deleted" << endl;
+    if(numFlights > 0)
+        delete[] flights;
+    
+}
+
+
 // Getters
 string Airline::getAirLineName() const {
     return airLineName;
@@ -75,7 +89,10 @@ void Airline::addFlight(const string & dep, const string& arr, const Time & depT
     
     // Copy existing flights to the new array
     for (int i = 0; i < numFlights; i++) {
-        newFlights[i] = flights[i];
+        newFlights[i].setCities(flights[i].getDeparture(), flights[i].getArrival());
+        newFlights[i].setArrivalTime(flights[i].getArrivalTime());
+        newFlights[i].setDepartureTime(flights[i].getDepartureTime());
+        newFlights[i].setFlightIdent(flights[i].getFlightIdent());
     }
     
     // Add the new flight to the end of the array
@@ -96,7 +113,10 @@ void Airline::addFlight(Flight flight) {
 
     if (numFlights==0){
         flights= new Flight[1];
-        flights[0]= flight;
+        flights[0].setCities(flight.getDeparture(), flight.getArrival());
+        flights[0].setArrivalTime(flight.getArrivalTime());
+        flights[0].setDepartureTime(flight.getDepartureTime());
+        flights[0].setFlightIdent(flight.getFlightIdent());
         numFlights++;
         return;
     }                                 
@@ -105,7 +125,10 @@ void Airline::addFlight(Flight flight) {
     
     // Copy existing flights to the new array
     for (int i = 0; i < numFlights; i++) {
-        newFlights[i] = flights[i];
+        newFlights[i].setCities(flights[i].getDeparture(), flights[i].getArrival());
+        newFlights[i].setArrivalTime(flights[i].getArrivalTime());
+        newFlights[i].setDepartureTime(flights[i].getDepartureTime());
+        newFlights[i].setFlightIdent(flights[i].getFlightIdent());
     }
     
     // Add the new flight to the end of the array
@@ -145,13 +168,19 @@ void Airline::removeFlight(string ident) {
 
     // Move all flights after the flight to remove one position to the left
     for (; i < numFlights - 1; i++) {
-        flights[i] = flights[i + 1];
+        flights[i].setCities(flights[i+1].getDeparture(), flights[i+1].getArrival());
+        flights[i].setArrivalTime(flights[i+1].getArrivalTime());
+        flights[i].setDepartureTime(flights[i+1].getDepartureTime());
+        flights[i].setFlightIdent(flights[i+1].getFlightIdent());
     }
     
     // Reduce the size of the flights array
     Flight* temp = new Flight[--numFlights];
     for (i = 0; i < numFlights; i++) {
-        temp[i] = flights[i];
+        temp[i].setCities(flights[i].getDeparture(), flights[i].getArrival());
+        temp[i].setArrivalTime(flights[i].getArrivalTime());
+        temp[i].setDepartureTime(flights[i].getDepartureTime());
+        temp[i].setFlightIdent(flights[i].getFlightIdent());
     }
     delete[] flights;
     flights = temp;

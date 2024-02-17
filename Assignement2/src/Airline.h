@@ -19,6 +19,7 @@ private:
     Flight *flights; /**< The flights of the airline. */
 
 public:
+
     /**
      * @brief Default constructor for the Airline class.
      */
@@ -32,9 +33,11 @@ public:
      * @param number number of flights of the airline.
      * @param flights The flights of the airline.
      */
-    Airline(string name, string address, string phone, int number, Flight *flights);
+    Airline(string name, string address, string phone, int number);
 
     Airline(const Airline &obj);
+
+    Airline(string name, string address, string phone, Flight * list, int number);
 
     /**
      * @brief Destructor for the Airline class.
@@ -121,6 +124,7 @@ public:
 
     Flight  getFlight(string ident);
 
+    friend class Booking;
 };
 
 #endif // AIRLINE_H

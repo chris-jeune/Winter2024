@@ -3,24 +3,27 @@
 #ifndef PASSENGER_H
 #define PASSENGER_H
 
-
 #include <string>
 
 using namespace std;
 
+class Booking;
+class Flight;
 /**
  * @brief The Passenger class represents a passenger with its name and passport number.
  */
 class Passenger {
+friend class Booking;
 private:
+    static const int MAX_BOOKINGS=156;
     string name; /**< The name of the passenger. */
     string id; /**< The id of the passenger. */
     string address; /**< The address of the passenger. */
     string phone; /**< The phone number of the passenger. */
-    static int passengerCount; /**< The count of total passengers created. */
     Booking *bookings; /**< The bookings of the passenger. */
+    int bookingCount; /**< The count of total bookings created. */
+    static int passengerCount; /**< The count of total passengers created. */
     string createPassengerId() const;
-
 
 public:
 
@@ -95,7 +98,9 @@ public:
      */
     void printPassenger() const;
 
-    
+    void listBookings() const;
+
+    void addBooking(Booking * book, Flight *fl);
 
 };
 
