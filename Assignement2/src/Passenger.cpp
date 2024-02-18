@@ -3,43 +3,44 @@
 #include "Passenger.h"
 #include <iostream>
 #include "Booking.h"
+
 using namespace std;
 
 int Passenger::passengerCount = 0;
 
 // Default constructor
-Passenger::Passenger():name("N/A"),address("N/A"),phone("N/A"),id("###") 
+Passenger::Passenger() : name("N/A"), address("N/A"), phone("N/A"), id("###")
 {
     bookingCount = 0;
 }
 
 // Parameterized constructor
-Passenger::Passenger(string name, string address, string phone):name(name),address(address),phone(phone)
+Passenger::Passenger(string name, string address, string phone) : name(name), address(address), phone(phone)
 {
     passengerCount++;
     id = createPassengerId();
     bookingCount = 0;
 }
 
+// Copy constructor
 Passenger::Passenger(const Passenger &obj) : name(obj.name), address(obj.address), phone(obj.phone), id(obj.id)
 {
-    cout<<"Copy constructor called"<<endl;
     bookingCount = obj.bookingCount;
-    if(bookingCount>0){
-    bookings= new Booking[bookingCount];
-    for(int i=0; i<bookingCount;i++){
-        bookings[i].setPassenger(this);
-        bookings[i].setSeatNumber(obj.bookings[i].getSeatNumber());
-        bookings[i].setFlight(obj.bookings[i].getFlight());
-    }
+    if (bookingCount > 0)
+    {
+        bookings = new Booking[bookingCount];
+        for (int i = 0; i < bookingCount; i++)
+        {
+            bookings[i].setPassenger(this);
+            bookings[i].setSeatNumber(obj.bookings[i].getSeatNumber());
+            bookings[i].setFlight(obj.bookings[i].getFlight());
+        }
     }
 }
-
 
 // Destructor
 Passenger::~Passenger()
 {
-    cout << "Passenger " << id << " is being deleted" << endl;
     if (bookingCount > 0)
     {
         delete[] bookings;
@@ -68,7 +69,6 @@ string Passenger::getPhone() const
 }
 
 // Setters
-
 void Passenger::setName(string name)
 {
     this->name = name;
@@ -91,6 +91,7 @@ string Passenger::createPassengerId() const
     return name.substr(0, 2) + to_string(passengerCount);
 }
 
+// Print passenger details
 void Passenger::printPassenger() const
 {
     cout << "Name: " << name << endl;
@@ -99,36 +100,46 @@ void Passenger::printPassenger() const
     cout << "Phone: " << phone << endl;
 }
 
+// List all bookings for the passenger
 void Passenger::listBookings() const
 {
-    cout<< "Bookings for Passenger "<<id<<endl;
-    
-        for (int i = 0; i < bookingCount; i++)
-        {
-            cout<<"Seat: "<<bookings[i].getSeatNumber()<<endl;
-            cout<<"Flight: "<<bookings[i].getFlight()->getFlightIdent()<<endl;
-            cout<<endl;
-        }
+    cout << "Bookings for Passenger " << name << " (" << id << ")" << endl;
+    for (int i = 0; i < bookingCount; i++)
+    {
+        cout << "Seat: " << bookings[i].getSeatNumber() << endl;
+        cout << "Flight: " << bookings[i].getFlight()->getFlightIdent() << endl;
+        cout << endl;
+    }
 }
 
-void Passenger::addBooking(Booking *  b, Flight *fl){
-    if(bookingCount==0){
+// Add a booking to the passenger
+void Passenger::addBooking(Booking *b, Flight *fl)
+{
+    if (bookingCount == 0)
+    {
+        // If there are no existing bookings, create a new array with a single booking
         bookings = new Booking[1];
         bookings[0].setPassenger(this);
         bookings[0].setSeatNumber(b->getSeatNumber());
         bookings[0].setFlight(fl);
     }
-    else{
-        Booking *temp = new Booking[bookingCount+1];
-        for(int i=0; i<bookingCount; i++){
+    else
+    {
+        // If there are existing bookings, create a temporary array with increased size
+        Booking *temp = new Booking[bookingCount + 1];
+        // Copy existing bookings to the temporary array
+        for (int i = 0; i < bookingCount; i++)
+        {
             temp[i].setPassenger(this);
             temp[i].setSeatNumber(bookings[i].getSeatNumber());
-            temp[i].setFlight(fl);
+            temp[i].setFlight(bookings[i].getFlight());
         }
+        // Add the new booking to the temporary array
         temp[bookingCount].setPassenger(this);
         temp[bookingCount].setSeatNumber(b->getSeatNumber());
         temp[bookingCount].setFlight(fl);
-        delete [] bookings;
+        // Delete the old bookings array and assign the temporary array to it
+        delete[] bookings;
         bookings = temp;
     }
 }

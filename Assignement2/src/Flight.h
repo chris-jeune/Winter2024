@@ -7,18 +7,20 @@
 #include "Time.h"
 using namespace std;
 
+// Forward declarations
 class Booking; 
 class Passenger;
+
 /**
  * @brief The Flight class represents a flight with its departure and arrival information.
  */
 class Flight {
-
-friend class Booking;
+    // Friend classes
+    friend class Booking;
+    friend class Airline;
 
 private:
     static const int MAX_SEATS = 156; /**< The number of seats of the flight. */
-    static const string airlineName; /**< The name of the airline. */
     string flightIdent; /**< The identification code of the flight. */
     string departure; /**< The departure city of the flight. */
     string arrival; /**< The arrival city of the flight. */
@@ -41,9 +43,7 @@ private:
      */
     int flightDurationCalc() const;
 
-
 public:
-
     /**
      * @brief Default constructor for the Flight class.
      */
@@ -105,7 +105,6 @@ public:
      */
     int getFlightDuration() const;
 
-
     /**
      * @brief Set the departure and arrival cities of the flight.
      * @param dep The departure city of the flight.
@@ -130,13 +129,23 @@ public:
      */
     void printFlight() const;
 
+    /**
+     * @brief List all the bookings of the flight.
+     */
     void listBookings() const;
 
+    /**
+     * @brief Set the identification code of the flight.
+     * @param ident The identification code of the flight.
+     */
     void setFlightIdent(string ident);
 
-    void addBooking(Booking *  booking, Passenger *pass);
-
-
+    /**
+     * @brief Add a booking to the flight.
+     * @param booking The booking to be added.
+     * @param pass The passenger associated with the booking.
+     */
+    void addBooking(Booking* booking, Passenger* pass);
 };
 
 #endif // FLIGHT_H

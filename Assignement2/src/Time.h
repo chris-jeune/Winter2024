@@ -3,32 +3,32 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include <iostream>
+#include <string>
 
-using std::cout;
-using std::endl;
-
-#include <iomanip>
-
-// Time abstract data type (ADT) definition
 class Time
 {
-
 public:
-    Time();                      // constructor
-    Time(int, int, int);         // constructor 2
-    Time(const Time&);           // copy constructor
-                       
-    void setTime(int, int, int); // set hour, minute, second
-    void printTime();            // print time
-    int getHour() const;         // get hour
-    int getMinute() const;       // get minute
-    int getSecond() const;       // get second
+    Time(); // constructor
+    Time(int h, int min, int sec,int d, int m, int y); // constructor 2
+    Time(const Time&); // copy constructor
+
+    void setTime(int h, int min, int sec, int d, int m, int y); // set hour, minute, second
+    void printTime() const; // print time
+    int getHour() const; // get hour
+    int getMinute() const; // get minute
+    int getSecond() const; // get second
+    int getDay() const; // get day
+    std::string getMonth() const; // get month
+    int getYear() const; // get year
+
 private:
-    int hour;   // 0 - 23 (24-hour clock format)
+    static const std::string months[12];
+    int day; // 1 - 31
+    std::string month; // 1 - 12 (index for months)
+    int year; // 1900 - 2100
+    int hour; // 0 - 23 (24-hour clock format)
     int minute; // 0 - 59
     int second; // 0 - 59
-
-}; // end class Time
+};
 
 #endif // TIME_H

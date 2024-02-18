@@ -1,4 +1,5 @@
 // Author: Christian Jeune, ID: 40279265 
+
 #include "Airline.h"
 #include <iostream>
 #include "Flight.h"
@@ -8,7 +9,7 @@ using namespace std;
 
 // Default constructor
 Airline::Airline() : airLineName("N/A"), airLineAddress("N/A"), airLinePhone("N/A"), numFlights(0) {
-    flights = new Flight[0];
+    flights = nullptr;
 }
 
 // Parameterized constructor
@@ -16,38 +17,34 @@ Airline::Airline(string name, string address, string phone, int number)
     : airLineName(name), airLineAddress(address), airLinePhone(phone), numFlights(number) {
     
     this->flights = new Flight[number];
-
 }
 
+// Copy constructor
 Airline::Airline(const Airline &obj) : airLineName(obj.airLineName), airLineAddress(obj.airLineAddress), airLinePhone(obj.airLinePhone), numFlights(obj.numFlights) {
+    // Allocate memory for flights array
     flights = new Flight[numFlights];
+    // Copy each flight from the original object to the new object
     for (int i = 0; i < numFlights; i++) {
-        flights[i].setCities(obj.flights[i].getDeparture(), obj.flights[i].getArrival());
-        flights[i].setArrivalTime(obj.flights[i].getArrivalTime());
-        flights[i].setDepartureTime(obj.flights[i].getDepartureTime());
-        flights[i].setFlightIdent(obj.flights[i].getFlightIdent());
+        flights[i] = obj.flights[i];
+        // Update the flight identifier for each copied flight
+        updateFlightIdent(flights[i]);
     }
 }
 
+// Parameterized constructor to initialize with an array of flights
 Airline::Airline(string name, string address, string phone, Flight * list, int number): airLineName(name), airLineAddress(address), airLinePhone(phone), numFlights(number) {
-    flights= new Flight[number];
+    flights = new Flight[number];
     for (int i = 0; i < number; i++) {
-        flights[i].setCities(list[i].getDeparture(), list[i].getArrival());
-        flights[i].setArrivalTime(list[i].getArrivalTime());
-        flights[i].setDepartureTime(list[i].getDepartureTime());
-        flights[i].setFlightIdent(list[i].getFlightIdent());
+        flights[i] = list[i];
+        updateFlightIdent(flights[i]);
     }
 }
-
 
 // Destructor
 Airline::~Airline() {
-    cout << "Airline " << airLineName << " is being deleted" << endl;
     if(numFlights > 0)
         delete[] flights;
-    
 }
-
 
 // Getters
 string Airline::getAirLineName() const {
@@ -77,10 +74,10 @@ void Airline::setAirLinePhone(string phone) {
 
 // Add a flight to the airline
 void Airline::addFlight(const string & dep, const string& arr, const Time & depTime, const Time & arrTime) {         
-
     if (numFlights==0){
         flights= new Flight[1];
-        flights[0]= Flight(dep, arr, depTime, arrTime);
+        flights[0]=Flight(dep, arr, depTime, arrTime);
+        updateFlightIdent(flights[0]);
         numFlights++;
         return;
     }                                 
@@ -89,15 +86,13 @@ void Airline::addFlight(const string & dep, const string& arr, const Time & depT
     
     // Copy existing flights to the new array
     for (int i = 0; i < numFlights; i++) {
-        newFlights[i].setCities(flights[i].getDeparture(), flights[i].getArrival());
-        newFlights[i].setArrivalTime(flights[i].getArrivalTime());
-        newFlights[i].setDepartureTime(flights[i].getDepartureTime());
-        newFlights[i].setFlightIdent(flights[i].getFlightIdent());
+        newFlights[i]=flights[i];
     }
     
     // Add the new flight to the end of the array
-    newFlights[numFlights] = Flight(dep, arr, depTime, arrTime);
-    
+    newFlights[numFlights]= Flight (dep, arr, depTime, arrTime);
+    updateFlightIdent(newFlights[numFlights]);
+
     // Delete the old array
     delete[] flights;
     
@@ -110,13 +105,10 @@ void Airline::addFlight(const string & dep, const string& arr, const Time & depT
 
 // Add a flight to the airline
 void Airline::addFlight(Flight flight) {         
-
     if (numFlights==0){
         flights= new Flight[1];
-        flights[0].setCities(flight.getDeparture(), flight.getArrival());
-        flights[0].setArrivalTime(flight.getArrivalTime());
-        flights[0].setDepartureTime(flight.getDepartureTime());
-        flights[0].setFlightIdent(flight.getFlightIdent());
+        flights[0]=flight;
+        updateFlightIdent(flights[0]);
         numFlights++;
         return;
     }                                 
@@ -125,15 +117,13 @@ void Airline::addFlight(Flight flight) {
     
     // Copy existing flights to the new array
     for (int i = 0; i < numFlights; i++) {
-        newFlights[i].setCities(flights[i].getDeparture(), flights[i].getArrival());
-        newFlights[i].setArrivalTime(flights[i].getArrivalTime());
-        newFlights[i].setDepartureTime(flights[i].getDepartureTime());
-        newFlights[i].setFlightIdent(flights[i].getFlightIdent());
+        newFlights[i]=flights[i];
     }
     
     // Add the new flight to the end of the array
-    newFlights[numFlights] = flight;
-    
+    newFlights[numFlights]=flight;
+    updateFlightIdent(newFlights[numFlights]);
+
     // Delete the old array
     delete[] flights;
     
@@ -142,6 +132,35 @@ void Airline::addFlight(Flight flight) {
     
     // Increment the number of flights
     numFlights++;
+}
+
+// Add multiple flights to the airline
+void Airline::addFlight(Flight * list,int number){
+    if (numFlights==0){
+        flights= new Flight[number];
+        for (int i = 0; i < number; i++) {
+            flights[i]=list[i];
+            updateFlightIdent(flights[i]);
+        }
+        numFlights=number;
+        return;
+    }
+
+    Flight* newFlights = new Flight[numFlights + number];
+    int i = 0;
+    for (; i < numFlights; i++) {
+        newFlights[i]=flights[i];
+    }
+
+    for (int j = 0; j < number; j++) {
+        newFlights[i]=list[j];
+        updateFlightIdent(newFlights[i]);
+        i++;
+    }
+
+    delete[] flights;
+    flights = newFlights;
+    numFlights+=number;
 }
 
 // Remove a flight from the airline
@@ -168,19 +187,13 @@ void Airline::removeFlight(string ident) {
 
     // Move all flights after the flight to remove one position to the left
     for (; i < numFlights - 1; i++) {
-        flights[i].setCities(flights[i+1].getDeparture(), flights[i+1].getArrival());
-        flights[i].setArrivalTime(flights[i+1].getArrivalTime());
-        flights[i].setDepartureTime(flights[i+1].getDepartureTime());
-        flights[i].setFlightIdent(flights[i+1].getFlightIdent());
+        flights[i]=flights[i+1];
     }
     
     // Reduce the size of the flights array
     Flight* temp = new Flight[--numFlights];
     for (i = 0; i < numFlights; i++) {
-        temp[i].setCities(flights[i].getDeparture(), flights[i].getArrival());
-        temp[i].setArrivalTime(flights[i].getArrivalTime());
-        temp[i].setDepartureTime(flights[i].getDepartureTime());
-        temp[i].setFlightIdent(flights[i].getFlightIdent());
+        temp[i]=flights[i];
     }
     delete[] flights;
     flights = temp;
@@ -225,7 +238,7 @@ int Airline::getNumFlights() const {
     return numFlights;
 }
 
-
+// Get a flight object by its identifier
 Flight Airline::getFlight(string ident){
     for (int i = 0; i < numFlights; i++) {
         if (flights[i].getFlightIdent() == ident) {
@@ -233,6 +246,19 @@ Flight Airline::getFlight(string ident){
         }
     }
 
-    cout<<"Flight not found"<<endl;
+    cout << "Flight not found" << endl;
     return Flight();
+}
+
+// Update the flight identifier based on the airline name
+void Airline::updateFlightIdent(Flight & flight){   
+    // Initialize the identifier with the initials of the airline name
+    string initial = "";
+    for (char elem : airLineName) {
+        if (isupper(elem)) {
+            initial += elem;
+        }
+    }
+    // Append the initial to the flight identifier
+    flight.flightIdent = initial + flight.flightIdent;
 }

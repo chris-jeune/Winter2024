@@ -11,6 +11,7 @@ using namespace std;
 
 class Airline
 {
+friend class Booking;// Friend class
 private:
     string airLineName; /**< The name of the airline. */
     string airLineAddress; /**< The address of the airline. */
@@ -30,14 +31,25 @@ public:
      * @param name The name of the airline.
      * @param address The address of the airline.
      * @param phone The phone number of the airline.
-     * @param number number of flights of the airline.
-     * @param flights The flights of the airline.
+     * @param number Number of flights of the airline.
      */
     Airline(string name, string address, string phone, int number);
 
-    Airline(const Airline &obj);
-
+    /**
+     * @brief Parameterized constructor for the Airline class.
+     * @param name The name of the airline.
+     * @param address The address of the airline.
+     * @param phone The phone number of the airline.
+     * @param list Pointer to an array of flights.
+     * @param number Number of flights of the airline.
+     */
     Airline(string name, string address, string phone, Flight * list, int number);
+
+    /**
+     * @brief Copy constructor for the Airline class.
+     * @param obj The Airline object to copy.
+     */
+    Airline(const Airline &obj);
 
     /**
      * @brief Destructor for the Airline class.
@@ -81,14 +93,26 @@ public:
     void setAirLinePhone(string phone);
 
     /**
-     * @brief add a flight to the airline.
-     * @param dep departing city
-     * @param arr arriving city
-     * @param depTime departing time
-     * @param arrTime arriving time
+     * @brief Add a flight to the airline.
+     * @param dep Departing city.
+     * @param arr Arriving city.
+     * @param depTime Departing time.
+     * @param arrTime Arriving time.
      */
     void addFlight(const string & dep, const string & arr, const Time & depTime,const Time & arrTime);
-    void addFlight(const Flight flight);
+
+    /**
+     * @brief Add a flight to the airline.
+     * @param flight The flight to add.
+     */
+    void addFlight(Flight flight);
+
+    /**
+     * @brief Add multiple flights to the airline.
+     * @param flight Pointer to an array of flights.
+     * @param number Number of flights to add.
+     */
+    void addFlight(Flight * flight, int number);
 
     /**
      * @brief Remove a flight from the airline.
@@ -103,16 +127,20 @@ public:
 
     /**
      * @brief List all flights of the airline departing and arriving to specific cities.
+     * @param depCity Departing city.
+     * @param arrCity Arriving city.
      */
     void listFlights(string depCity, string arrCity) const; 
 
     /**
      * @brief List all flights of the airline departing from a specific city.
+     * @param depCity Departing city.
      */
     void listFlightsDep(string depCity) const;
 
     /**
      * @brief List all flights of the airline arriving to a specific city.
+     * @param arrCity Arriving city.
      */
     void listFlightsArr(string arrCity) const;  
 
@@ -122,9 +150,19 @@ public:
      */
     int getNumFlights() const;
 
+    /**
+     * @brief Get a specific flight by its identifier.
+     * @param ident The identifier of the flight.
+     * @return The flight object.
+     */
     Flight  getFlight(string ident);
 
-    friend class Booking;
+    /**
+     * @brief Update the identifier of a flight.
+     * @param flight The flight object to update.
+     */
+    void updateFlightIdent(Flight & flight);
+
 };
 
 #endif // AIRLINE_H

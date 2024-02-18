@@ -1,4 +1,4 @@
-
+// Author: Christian Jeune, ID: 40279265
 #include <iostream>
 #include <string>
 #include "Time.h"
@@ -6,18 +6,21 @@
 
 using namespace std;
 
+// Test default constructor
 void testDefaultConstructorPass() {
     cout << "Testing default constructor" << endl;
     Passenger p;
     p.printPassenger();
 }
 
+// Test parameterized constructor
 void testParameterizedConstructorPass() {
     cout << "Testing parameterized constructor" << endl;
     Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
     p.printPassenger();
 }
 
+// Test copy constructor
 void testCopyConstructorPass() {
     cout << "Testing copy constructor" << endl;
     Passenger p1("John Doe", "8 rue de Maisonneuve", "123456789");
@@ -28,7 +31,8 @@ void testCopyConstructorPass() {
     p2.printPassenger();
 }
 
-void testAccesserPass() {
+// Test getters
+void testGettersPass() {
     cout << "Testing accessors" << endl;
     Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
     cout << "Passenger name: " << p.getName() << endl;
@@ -37,7 +41,8 @@ void testAccesserPass() {
     cout << "Phone: " << p.getPhone() << endl;
 }
 
-void testMutatorPass() {
+// Test setters
+void testSettersPass() {
     cout << "Testing mutators" << endl;
     Passenger p;
     cout << "Original passenger" << endl;
@@ -53,7 +58,7 @@ int main2() {
     // testDefaultConstructorPass();
     // testParameterizedConstructorPass();
     // testCopyConstructorPass();
-    // testAccesserPass();
-     testMutatorPass();
+    // testGettersPass();
+     testSettersPass();
     return 0;
 }
