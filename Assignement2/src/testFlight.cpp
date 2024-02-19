@@ -16,8 +16,8 @@ void testDefaultConstructor(){
 // Test parameterized constructor
 void testParameterizedConstructor(){
     cout << "Testing parameterized constructor" << endl;
-    Time depTime(12, 30,0,1,1,2021);
-    Time arrTime(14, 30,0,1,1,2021);
+    Time depTime(12, 30,0);
+    Time arrTime(14, 30,0);
     Flight f("Toronto", "Vancouver", depTime, arrTime);
     f.printFlight();
 }
@@ -25,8 +25,8 @@ void testParameterizedConstructor(){
 // Test copy constructor
 void testCopyConstructor(){
     cout << "Testing copy constructor" << endl;
-    Time depTime(12, 30,0,1,1,2021);
-    Time arrTime(14, 30,0,1,1,2021);
+    Time depTime(12, 30,0);
+    Time arrTime(14, 30,0);
     Flight f1("Toronto", "Vancouver", depTime, arrTime);
     cout<<"Original flight"<<endl;
     f1.printFlight();
@@ -38,8 +38,8 @@ void testCopyConstructor(){
 // Test getters
 void testAccesserAndDuration(){
     cout << "Testing accessors" << endl;
-    Time depTime(12, 30,0,1,1,2021);
-    Time arrTime(14, 30,0, 1,1,2021);
+    Time depTime(12, 30,0);
+    Time arrTime(14, 30,0);
     Flight f("Toronto", "Vancouver", depTime, arrTime);
     cout<< "Flight number: " << f.getFlightIdent() << endl;
     cout << "Departing city: " << f.getDeparture() << endl;
@@ -55,13 +55,13 @@ void testAccesserAndDuration(){
 // Test setters
 void testSetters(){
     cout << "Testing setters" << endl;
-    Time depTime(12, 30,0,1,1,2021);
-    Time arrTime(14, 30,0,1,1,2021);
+    Time depTime(12, 30,0);
+    Time arrTime(14, 30,0);
     Flight f("Toronto", "Vancouver", depTime, arrTime);
     cout << "Original flight" << endl;
     f.printFlight();
-    Time newDepTime(11, 30,0,1,1,2021);
-    Time newArrTime(15, 30,0,1,1,2021);
+    Time newDepTime(11, 30,0);
+    Time newArrTime(15, 30,0);
     cout<<"\nModified flight"<<endl;
     f.setDepartureTime(newDepTime);
     f.setArrivalTime(newArrTime);

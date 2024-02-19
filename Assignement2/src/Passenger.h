@@ -8,7 +8,6 @@ using namespace std;
 
 // Forward declarations
 class Booking;
-class Flight;
 
 /**
  * @brief The Passenger class represents a passenger with its name, ID, address, and phone number.
@@ -112,7 +111,7 @@ public:
      * @param book The booking to be added.
      * @param fl The flight associated with the booking.
      */
-    void addBooking(Booking * book, Flight *fl);
+    void addBooking(Booking * book);
 
 };
 

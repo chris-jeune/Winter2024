@@ -7,14 +7,22 @@
 
 using namespace std;
 
-int Booking::bookingCount = 0;
 
 // Default constructor initializes member variables
 Booking::Booking():passenger(nullptr), flight(nullptr), seatNumber("noseat")
 {
 }
 
-// Parameterized constructor for creating a booking
+Booking::Booking(Passenger &pass, Flight &fl) : passenger(&pass), flight(&fl), seatNumber(creatSeatNumber(fl))
+{
+    pass.addBooking(this);
+    fl.addBooking(this);
+    fl.bookingCount++;
+    pass.bookingCount++;
+}
+
+
+// Parameterized constructor for creating a booking for a flight in airline
 Booking::Booking(Passenger &pass, string ident, Airline &airline) : passenger(nullptr), flight(nullptr), seatNumber("noseat")
 {
     // Find the index of the flight to book
@@ -42,12 +50,11 @@ Booking::Booking(Passenger &pass, string ident, Airline &airline) : passenger(nu
     }
 
     // Create the booking
-    seatNumber = creatSeatNumber(); // Generate a seat number
-    bookingCount++; // Increment booking count
+    seatNumber = creatSeatNumber(airline.flights[i]); // Generate a seat number
     passenger = &pass; // Set the passenger
     flight = &(airline.flights[i]); // Set the flight
-    airline.flights[i].addBooking(this, &pass); // Add booking to flight
-    pass.addBooking(this, &(airline.flights[i])); // Add booking to passenger
+    airline.flights[i].addBooking(this); // Add booking to flight
+    pass.addBooking(this); // Add booking to passenger
     airline.flights[i].bookingCount++; // Increment booking count for flight
     pass.bookingCount++; // Increment booking count for passenger
 }
@@ -67,8 +74,8 @@ Booking::Booking(const Booking &obj) : seatNumber(obj.seatNumber)
             // If there is a match, update the passenger, flight, and generate a new seat number
             passenger = obj.passenger;
             flight = obj.flight;
-            seatNumber = creatSeatNumber();
-            bookingCount++;
+            seatNumber = creatSeatNumber(*flight);
+            flight->bookingCount++;
             return;
         }
     }
@@ -108,12 +115,6 @@ void Booking::setFlight(Flight * fl)
     flight = fl;
 }
 
-// Setter function to set the seat number of the booking
-void Booking::setSeatNumber(string seat)
-{
-    seatNumber = seat;
-}
-
 // Function to cancel a booking
 void Booking::cancelBooking(Passenger& pass, string bookid, string flid) {
     // Find the flight index based on the flight identifier
@@ -151,23 +152,24 @@ void Booking::cancelBooking(Passenger& pass, string bookid, string flid) {
 
     // Shift bookings in Flight to remove the cancelled booking
     for (int l = seatIndex; l < pass.bookings[flightIndex].flight->bookingCount - 1; l++) {
-        pass.bookings[flightIndex].flight->bookings[l] = pass.bookings[flightIndex].flight->bookings[l + 1];
+        pass.bookings[flightIndex].flight->bookings[l]=pass.bookings[flightIndex].flight->bookings[l+1];
     }
 
     // Decrease booking count in Flight
     --pass.bookings[flightIndex].flight->bookingCount;
 
     // Reallocate memory for Flight bookings
-    Booking* newFlightBookings = new Booking[pass.bookings[flightIndex].flight->bookingCount];
+    Booking* newFlightBookings = pass.bookings[flightIndex].flight->bookings;
     for (int l = 0; l < pass.bookings[flightIndex].flight->bookingCount; l++) {
-        newFlightBookings[l] = pass.bookings[flightIndex].flight->bookings[l];
+        newFlightBookings[l]=pass.bookings[flightIndex].flight->bookings[l];
     }
+
     delete[] pass.bookings[flightIndex].flight->bookings;
     pass.bookings[flightIndex].flight->bookings = newFlightBookings;
 
     // Shift bookings in Passenger to remove the cancelled booking
     for (int l = flightIndex; l < pass.bookingCount - 1; l++) {
-        pass.bookings[l] = pass.bookings[l + 1];
+        pass.bookings[l]=pass.bookings[l+1];
     }
 
     // Decrease booking count in Passenger
@@ -176,7 +178,7 @@ void Booking::cancelBooking(Passenger& pass, string bookid, string flid) {
     // Reallocate memory for Passenger bookings
     Booking* newBookings = new Booking[pass.bookingCount];
     for (int l = 0; l < pass.bookingCount; l++) {
-        newBookings[l] = pass.bookings[l];
+        newBookings[l]=pass.bookings[l];
     }
     delete[] pass.bookings;
     pass.bookings = newBookings;
@@ -206,11 +208,11 @@ void Booking::printBooking()const
 }
 
 // Function to generate a seat number for the booking
-string Booking::creatSeatNumber() const
+string Booking::creatSeatNumber(const Flight & fl) const
 {
     string seat = "";
-    int row = (bookingCount / 6); // Determine row number based on booking count
-    int column = 1 + (bookingCount % 6); // Determine column number based on booking count
+    int row = (fl.bookingCount / 6); // Determine row number based on booking count
+    int column = 1 + (fl.bookingCount % 6); // Determine column number based on booking count
     seat += static_cast<char>('A' + row); // Convert row number to character (A, B, C, ...)
     seat += to_string(column); // Append column number
     return seat;

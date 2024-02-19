@@ -17,10 +17,8 @@ Time generateRandomTime() {
     int hour = rand() % 24; // Generate random hour (0-23)
     int minute = rand() % 60; // Generate random minute (0-59)
     int second = rand() % 60; // Generate random second (0-59)
-    int day = rand() % 31 + 1; // Generate random day (1-31)
-    int month = rand() % 12 + 1; // Generate random month (1-12)
-    int year = rand() % 201 + 1900; // Generate random year (1900-2100)
-    return Time(hour, minute, second, day, month, year);
+    Time t(hour, minute, second);
+    return t;
 }
 
 // List of cities for generating random flights
@@ -35,8 +33,8 @@ string getRandomCity() {
 Flight createRandomFlight() {
     string origin = getRandomCity();
     string destination = getRandomCity();
-    Time departureTime = generateRandomTime();
-    Time arrivalTime = generateRandomTime();
+    Time departureTime(generateRandomTime());
+    Time arrivalTime(generateRandomTime());
 
     // Create and return the Flight object
     Flight f(origin, destination, departureTime, arrivalTime);
@@ -74,7 +72,7 @@ void testAddingFlightsParam() {
     Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
     cout << "Airline created" << endl;
     cout << "Flight created" << endl;
-    airline.addFlight("New York", "Los Angeles", Time(9, 30, 0, 1, 1, 2024), Time(12, 0, 0, 1, 1, 2024));
+    airline.addFlight("New York", "Los Angeles", Time(9, 30, 0), Time(12, 0, 0));
     cout << "Listing all flights from Airline " << airline.getAirLineName() << endl;
     airline.listFlights();
 }
@@ -97,11 +95,11 @@ void testAddingFlightsArrayNotEmpty() {
     Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
     cout << "Airline created" << endl;
     cout << "Flight created" << endl;
-    Flight f = createRandomFlight();
-    Flight f2 = createRandomFlight();
-    Flight f3 = createRandomFlight();
+    Flight f(createRandomFlight());
+    Flight f2(createRandomFlight());
+    Flight f3(createRandomFlight());
     Flight tab[3] = {f, f2, f3};
-    Flight f4("New York", "Los Angeles", Time(9, 30, 0, 1, 1, 2024), Time(12, 0, 0, 1, 1, 2024));
+    Flight f4("New York", "Los Angeles", Time(9, 30, 0), Time(12, 0, 0));
     cout << "Flight created" << endl;
     airline.addFlight(f4);
     airline.addFlight(tab, 3);
@@ -215,7 +213,7 @@ void testBookingCreation(){
     b1.printBooking();
     cout<<endl;
     p.listBookings();
-    airline.getFlight("CAFL-1").listBookings();
+    f.listBookings();
     cout<<"Copy Booking Constructor"<<endl;
     Booking b2(b1);
     b2.printBooking();
@@ -223,8 +221,6 @@ void testBookingCreation(){
 
 // Test function to demonstrate cancelling a booking
 void testCancelBooking(){
-    string book;
-    string flid;
     cout << "Creating a booking\n" << endl;
     Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
     Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
@@ -238,7 +234,11 @@ void testCancelBooking(){
     Booking b(p,  "CAFL-1", airline);
     Booking b4(p, "CAFL-2", airline);
     Booking b7(p, "CAFL-3", airline);
-
+    Booking b10(p, "CAFL-1", airline);
+    Booking b13(p, "CAFL-2", airline);
+    Booking b16(p, "CAFL-3", airline);
+    cout<<"\nList of all flights from airline after booking"<<endl;
+    airline.listFlights();
     cout<<"\nList of bookings from passenger"<<endl;
     p.listBookings();
     cout<< "\nCancelling booking\n"<<endl;
@@ -248,12 +248,12 @@ void testCancelBooking(){
     Booking::cancelBooking(p, "A2", "CAFL-2");
     p.listBookings();
     cout<<"\nCancelling booking\n"<<endl;
-    Booking::cancelBooking(p, "A3", "CAFL-3");
+    Booking::cancelBooking(p, "A1", "CAFL-3");
     p.listBookings();
     cout<<"\nCancelling non existing booking\n"<<endl;
-    Booking::cancelBooking(p, "A4", "CAFL-4");
+    Booking::cancelBooking(p, "A4", "CAFL-1");
     cout<<"Adding booking"<<endl;
-    Booking b1(p, "CAFL-1", airline);
+    Booking b1(p, "CAFL-2", airline);
     p.listBookings();
 }
 

@@ -10,13 +10,13 @@ using namespace std;
 int Flight::flightCount = 0;
 
 // Default constructor
-Flight::Flight() : departure("N/A"), arrival("N/A"), flightIdent("N/A"), departureTime(nullptr), arrivalTime(nullptr) {
+Flight::Flight() : departure("N/A"), arrival("N/A"), flightIdent("N/A"), departureTime(new Time()), arrivalTime(new Time()), bookings(nullptr) {
     flightDuration = 0;
     bookingCount = 0;
 }
 
 // Parameterized constructor
-Flight::Flight(string dep, string arr, Time depTime, Time arrTime) : departure(dep), arrival(arr), departureTime(new Time(depTime)), arrivalTime(new Time(arrTime)) {
+Flight::Flight(const string dep, const string arr, const Time & depTime, const Time & arrTime) : departure(dep), arrival(arr), departureTime(new Time(depTime)), arrivalTime(new Time(arrTime)), bookings(nullptr) {
     flightDuration = flightDurationCalc();
     flightCount++;
     flightIdent = createFlightIdent();
@@ -32,23 +32,20 @@ Flight::Flight(const Flight& obj) : departure(obj.departure), arrival(obj.arriva
 
         // Copy each booking from the source object to the current object
         for (int i = 0; i < bookingCount; i++) {
-            bookings[i].setPassenger(obj.bookings[i].getPassenger());
-            bookings[i].setSeatNumber(obj.bookings[i].getSeatNumber());
+            bookings[i]=obj.bookings[i];
             bookings[i].setFlight(this);
         }
+    }
+    else{
+        bookings = nullptr;
     }
 }
 
 // Destructor
 Flight::~Flight() {
-    // Check if there are bookings and valid time pointers before deletion
-    if (bookingCount > 0 && departureTime != nullptr ) {
-        delete departureTime;
-        delete arrivalTime;
-        delete[] bookings;
-    }
-    // If there are bookings but no valid time pointers
-    else if(bookingCount > 0) {
+    delete departureTime;
+    delete arrivalTime;
+    if (bookingCount>0) {
         delete[] bookings;
     }
 }
@@ -85,13 +82,11 @@ void Flight::setCities(const string& dep, const string& arr) {
 }
 
 void Flight::setDepartureTime(const Time& depTime) {
-    delete departureTime;
     departureTime = new Time(depTime);
     flightDuration = flightDurationCalc();
 }
 
 void Flight::setArrivalTime(const Time& arrTime) {
-    delete arrivalTime;
     arrivalTime = new Time(arrTime);
     flightDuration = flightDurationCalc();
 }
@@ -141,6 +136,7 @@ void Flight::printFlight() const {
         arrivalTime->printTime();
     cout << endl;
     cout << "Flight Duration: " << flightDuration << " hours" << endl;
+    cout << "Available Seats: " << MAX_SEATS - bookingCount << endl;
 }
 
 // List all bookings for the flight
@@ -148,28 +144,19 @@ void Flight::listBookings() const {
     cout << "Bookings for Flight " << flightIdent << endl;
     for (int i = 0; i < bookingCount; i++) {
         cout << "Seat: " << bookings[i].getSeatNumber() << endl;
-        cout << "Passenger: " << bookings[i].getPassenger()->getName() << endl;
-        cout << "Phone: " << bookings[i].getPassenger()->getPhone() << endl;
-        cout << "Address: " << bookings[i].getPassenger()->getAddress() << endl;
+        cout << "Passenger: " << bookings[i].getPassenger()->getName() <<", ("<< bookings[i].getPassenger()->getId()<<")"<< endl;
         cout << endl;
     }
 }
 
-// Set the flight identifier
-void Flight::setFlightIdent(string id) {
-    flightIdent = id;
-}
-
 // Add a booking to the flight
-void Flight::addBooking(Booking* b, Passenger* p) {
+void Flight::addBooking(Booking* b) {
 
     // Check if there are no existing bookings
     if (bookingCount == 0) {
         // Create a new array with a single booking
         bookings = new Booking[1];
-        bookings[0].setPassenger(p);
-        bookings[0].setSeatNumber(b->getSeatNumber());
-        bookings[0].setFlight(this);
+        bookings[0]=*b;
     }
     else {
         // Create a temporary array with increased size
@@ -177,19 +164,24 @@ void Flight::addBooking(Booking* b, Passenger* p) {
         
         // Copy existing bookings to the temporary array
         for (int i = 0; i < bookingCount; i++) {
-            temp[i].setPassenger(bookings[i].getPassenger());
-            temp[i].setSeatNumber(bookings[i].getSeatNumber());
-            temp[i].setFlight(this);
+            temp[i]=bookings[i];
         }
         
         // Add the new booking to the temporary array
-        temp[bookingCount].setPassenger(p);
-        temp[bookingCount].setSeatNumber(b->getSeatNumber());
-        temp[bookingCount].setFlight(this);
+        temp[bookingCount]=*b;
         
         // Delete the old bookings array and assign the temporary array to it
         delete[] bookings;
         bookings = temp;
     }
 
+}
+
+void Flight::setBookings(Booking* booking, int count) {
+    bookings = new Booking[count];
+    for(int i = 0; i < count; i++) {
+        bookings[i]=booking[i];
+        bookings[i].setFlight(this);
+    }
+    bookingCount = count;
 }

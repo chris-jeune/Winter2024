@@ -40,10 +40,10 @@ public:
      * @param name The name of the airline.
      * @param address The address of the airline.
      * @param phone The phone number of the airline.
-     * @param list Pointer to an array of flights.
+     * @param obj Pointer to an array of flights.
      * @param number Number of flights of the airline.
      */
-    Airline(string name, string address, string phone, Flight * list, int number);
+    Airline(string name, string address, string phone, Flight * obj, int number);
 
     /**
      * @brief Copy constructor for the Airline class.
@@ -99,13 +99,13 @@ public:
      * @param depTime Departing time.
      * @param arrTime Arriving time.
      */
-    void addFlight(const string & dep, const string & arr, const Time & depTime,const Time & arrTime);
+    void addFlight(const string & dep, const string & arr, const Time & depTime, const Time & arrTime);
 
     /**
      * @brief Add a flight to the airline.
      * @param flight The flight to add.
      */
-    void addFlight(Flight flight);
+    void addFlight(Flight & flight);
 
     /**
      * @brief Add multiple flights to the airline.
@@ -149,13 +149,6 @@ public:
      * @return The number of flights of the airline.
      */
     int getNumFlights() const;
-
-    /**
-     * @brief Get a specific flight by its identifier.
-     * @param ident The identifier of the flight.
-     * @return The flight object.
-     */
-    Flight  getFlight(string ident);
 
     /**
      * @brief Update the identifier of a flight.

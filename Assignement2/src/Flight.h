@@ -9,7 +9,6 @@ using namespace std;
 
 // Forward declarations
 class Booking; 
-class Passenger;
 
 /**
  * @brief The Flight class represents a flight with its departure and arrival information.
@@ -56,7 +55,7 @@ public:
      * @param depTime The departure time of the flight.
      * @param arrTime The arrival time of the flight.
      */
-    Flight(string dep, string arr, Time depTime, Time arrTime);
+    Flight(const string dep, const string arr, const  Time& depTime, const Time&arrTime);
 
     /**
      * @brief Copy constructor for the Flight class.
@@ -135,17 +134,18 @@ public:
     void listBookings() const;
 
     /**
-     * @brief Set the identification code of the flight.
-     * @param ident The identification code of the flight.
-     */
-    void setFlightIdent(string ident);
-
-    /**
      * @brief Add a booking to the flight.
      * @param booking The booking to be added.
      * @param pass The passenger associated with the booking.
      */
-    void addBooking(Booking* booking, Passenger* pass);
+    void addBooking(Booking* booking);
+
+    /**
+     * @brief Set the bookings of the flight.
+     * @param booking Pointer to an array of bookings.
+     * @param count Number of bookings to set.
+     */
+    void setBookings(Booking* booking, int count);
 };
 
 #endif // FLIGHT_H

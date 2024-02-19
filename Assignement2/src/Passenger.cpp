@@ -9,13 +9,13 @@ using namespace std;
 int Passenger::passengerCount = 0;
 
 // Default constructor
-Passenger::Passenger() : name("N/A"), address("N/A"), phone("N/A"), id("###")
+Passenger::Passenger() : name("N/A"), address("N/A"), phone("N/A"), id("###"), bookings(nullptr)
 {
     bookingCount = 0;
 }
 
 // Parameterized constructor
-Passenger::Passenger(string name, string address, string phone) : name(name), address(address), phone(phone)
+Passenger::Passenger(string name, string address, string phone) : name(name), address(address), phone(phone), bookings(nullptr)
 {
     passengerCount++;
     id = createPassengerId();
@@ -31,9 +31,8 @@ Passenger::Passenger(const Passenger &obj) : name(obj.name), address(obj.address
         bookings = new Booking[bookingCount];
         for (int i = 0; i < bookingCount; i++)
         {
+            bookings[i]=obj.bookings[i];
             bookings[i].setPassenger(this);
-            bookings[i].setSeatNumber(obj.bookings[i].getSeatNumber());
-            bookings[i].setFlight(obj.bookings[i].getFlight());
         }
     }
 }
@@ -45,6 +44,7 @@ Passenger::~Passenger()
     {
         delete[] bookings;
     }
+    passengerCount--;
 }
 
 // Getters
@@ -113,15 +113,13 @@ void Passenger::listBookings() const
 }
 
 // Add a booking to the passenger
-void Passenger::addBooking(Booking *b, Flight *fl)
+void Passenger::addBooking(Booking *b)
 {
     if (bookingCount == 0)
     {
         // If there are no existing bookings, create a new array with a single booking
         bookings = new Booking[1];
-        bookings[0].setPassenger(this);
-        bookings[0].setSeatNumber(b->getSeatNumber());
-        bookings[0].setFlight(fl);
+        bookings[0]=*b;
     }
     else
     {
@@ -130,14 +128,10 @@ void Passenger::addBooking(Booking *b, Flight *fl)
         // Copy existing bookings to the temporary array
         for (int i = 0; i < bookingCount; i++)
         {
-            temp[i].setPassenger(this);
-            temp[i].setSeatNumber(bookings[i].getSeatNumber());
-            temp[i].setFlight(bookings[i].getFlight());
+            temp[i]=bookings[i];
         }
         // Add the new booking to the temporary array
-        temp[bookingCount].setPassenger(this);
-        temp[bookingCount].setSeatNumber(b->getSeatNumber());
-        temp[bookingCount].setFlight(fl);
+        temp[bookingCount]=*b;
         // Delete the old bookings array and assign the temporary array to it
         delete[] bookings;
         bookings = temp;

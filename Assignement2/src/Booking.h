@@ -12,13 +12,12 @@ private:
     Passenger* passenger; /**< The passenger of the booking. */
     Flight* flight; /**< The flight of the booking. */
     string seatNumber; /**< The identification code of the seat. */
-    static int bookingCount; /**< The count of total bookings created. */
 
     /**
      * @brief Generate a unique seat number for the booking.
      * @return A unique seat number.
      */
-    string creatSeatNumber() const;
+    string creatSeatNumber(const Flight & fl) const;
 
 public:
     Booking(); // Default constructor
@@ -30,6 +29,14 @@ public:
      * @param airline The airline the flight belongs to.
      */
     Booking(Passenger& pass, string ident, Airline& airline);
+
+
+    /**
+     * @brief Parameterized constructor for the Booking class.
+     * @param pass The passenger of the booking.
+     * @param fl The flight of the booking.
+     */
+    Booking(Passenger &  pass, Flight &  fl); 
 
     /**
      * @brief Copy constructor for the Booking class.
@@ -71,12 +78,6 @@ public:
      * @param fl The flight of the booking.
      */
     void setFlight(Flight* fl);
-
-    /**
-     * @brief Set the seat number of the booking.
-     * @param seat The seat number of the booking.
-     */
-    void setSeatNumber(string seat);
 
     /**
      * @brief Static method to cancel a booking.
