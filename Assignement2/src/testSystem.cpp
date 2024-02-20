@@ -362,7 +362,7 @@ void testCopyAirlineBooking(){
 
 }
 
-int main2(){
+int main(){
     // testAirlineCreation();
     // testAirlineCreationWithFlights();
     // testAirlineCopy();
@@ -379,6 +379,6 @@ int main2(){
     // testCancelBooking();
     // testCopyPassBookings();
     // testCopyFlightBookings();
-    testCopyAirlineBooking();
+    // testCopyAirlineBooking();
     return 0;
 }

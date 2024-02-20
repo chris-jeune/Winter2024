@@ -82,11 +82,13 @@ void Flight::setCities(const string& dep, const string& arr) {
 }
 
 void Flight::setDepartureTime(const Time& depTime) {
+    delete departureTime;
     departureTime = new Time(depTime);
     flightDuration = flightDurationCalc();
 }
 
 void Flight::setArrivalTime(const Time& arrTime) {
+    delete arrivalTime;
     arrivalTime = new Time(arrTime);
     flightDuration = flightDurationCalc();
 }

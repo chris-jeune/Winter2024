@@ -78,7 +78,7 @@ int main3(){
     // cout<<endl<<endl;
     // testAccesserAndDuration();
     // cout<<endl<<endl;
-    // testSetters();
+    testSetters();
     return 0;
 }
 
