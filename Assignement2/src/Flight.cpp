@@ -177,7 +177,11 @@ void Flight::addBooking(Booking* b) {
 
 }
 
+// sets the bookings array
 void Flight::setBookings(Booking* booking, int count) {
+    if (bookingCount > 0) {
+        delete[] bookings;
+    }
     bookings = new Booking[count];
     for(int i = 0; i < count; i++) {
         bookings[i]=booking[i];

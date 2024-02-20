@@ -6,7 +6,7 @@
 
 
 // Time constructor initializes each data member to zero and ensures all Time objects start in a consistent state
-Time::Time() : hour(-1), minute(-1), second(-1) {}
+Time::Time() : hour(0), minute(0), second(0) {}
 
 // Time constructor initializes data members with user input
 Time::Time(int h1, int m1, int s1)
