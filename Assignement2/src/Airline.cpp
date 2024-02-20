@@ -9,6 +9,8 @@
 
 using namespace std;
 
+int Airline::copyCount = 0;
+
 // Default constructor
 Airline::Airline() : airLineName("N/A"), airLineAddress("N/A"), airLinePhone("N/A"), numFlights(0) {
     flights = nullptr;
@@ -20,11 +22,17 @@ Airline::Airline(string name, string address, string phone, int number)
 }
 
 // Copy constructor
-Airline::Airline(const Airline &obj) : airLineName(obj.airLineName), airLineAddress(obj.airLineAddress), airLinePhone(obj.airLinePhone), numFlights(obj.numFlights) {
+Airline::Airline(const Airline &obj) : airLineName(obj.airLineName+'-'+to_string(++copyCount)), airLineAddress(obj.airLineAddress), airLinePhone(obj.airLinePhone), numFlights(obj.numFlights) {
+    if (numFlights == 0) {
+        flights = nullptr;
+        return;
+    }
     // Allocate memory for flights array
     flights = new Flight[numFlights];
     // Copy each flight from the original object to the new object
     for (int i = 0; i < numFlights; i++) {
+        delete flights[i].departureTime;
+        delete flights[i].arrivalTime;
         flights[i] = obj.flights[i];
         // Deep copy the bookings object
         if(obj.flights[i].bookingCount > 0)
@@ -40,17 +48,22 @@ Airline::Airline(const Airline &obj) : airLineName(obj.airLineName), airLineAddr
 
 // Parameterized constructor to initialize with an array of flights
 Airline::Airline(string name, string address, string phone, Flight * list, int number): airLineName(name), airLineAddress(address), airLinePhone(phone), numFlights(number) {
+    if (number == 0) {
+        flights = nullptr;
+        return;
+    }
     flights = new Flight[number];
     for (int i = 0; i < number; i++) {
+        delete flights[i].departureTime;
+        delete flights[i].arrivalTime;
         flights[i] = list[i];
         // Deep copy the bookings object
         if(list[i].bookingCount > 0)
             flights[i].setBookings(list[i].bookings, int(list[i].bookingCount));
-        flights[i].setBookings(list[i].bookings, int(list[i].bookingCount));
         // Deep copy the departure time object
-        flights[i].setDepartureTime(Time(list[i].getDepartureTime()));
+        flights[i].setDepartureTime(list[i].getDepartureTime());
         // Deep copy the arrival time object
-        flights[i].setArrivalTime(Time(list[i].getArrivalTime()));
+        flights[i].setArrivalTime(list[i].getArrivalTime());
         // Update the flight identifier for each copied flight
         updateFlightIdent(flights[i]);
     }
@@ -85,12 +98,16 @@ void Airline::setAirLinePhone(string phone) {
 }
 
 // Add a flight to the airline
-void Airline::addFlight(const string & dep, const string & arr, const Time & depTime, const  Time & arrTime) {                                        
+void Airline::addFlight(const string & dep, const string & arr, const Time & depTime, const  Time & arrTime) {     
+    // Create a new flight object
+    Flight temp(dep, arr, depTime, arrTime);                                   
     // Create a new array with increased size
     Flight* newFlights = new Flight[numFlights + 1];
     
     // Copy existing flights to the new array
     for (int i = 0; i < numFlights; i++) {
+        delete newFlights[i].departureTime;
+        delete newFlights[i].arrivalTime;
         newFlights[i] = flights[i];
         // Deep copy the bookings object
         if(flights[i].bookingCount>0)
@@ -103,7 +120,9 @@ void Airline::addFlight(const string & dep, const string & arr, const Time & dep
     }
     
     // Add the new flight to the end of the array
-    flights[numFlights]= Flight (dep, arr, depTime, arrTime);
+    delete newFlights[numFlights].departureTime;
+    delete newFlights[numFlights].arrivalTime;
+    newFlights[numFlights]= temp;
     newFlights[numFlights].setDepartureTime(depTime);
     newFlights[numFlights].setArrivalTime(arrTime);
     updateFlightIdent(newFlights[numFlights]);
@@ -126,6 +145,8 @@ void Airline::addFlight(Flight & flight) {
     
     // Copy existing flights to the new array
     for (int i = 0; i < numFlights; i++) {
+        delete newFlights[i].departureTime;
+        delete newFlights[i].arrivalTime;
         newFlights[i] = flights[i];
         // Deep copy the bookings object
         if(flights[i].bookingCount>0)
@@ -137,6 +158,8 @@ void Airline::addFlight(Flight & flight) {
     }
     
     // Add the new flight to the end of the array
+    delete newFlights[numFlights].departureTime;
+    delete newFlights[numFlights].arrivalTime;
     newFlights[numFlights]=flight;
         // Deep copy the bookings object
         if(flight.bookingCount>0)
@@ -165,7 +188,9 @@ void Airline::addFlight(Flight * list,int number){
     Flight* newFlights = new Flight[numFlights + number];
     int i = 0;
     for (; i < numFlights; i++) {
-                newFlights[i] = flights[i];
+        delete newFlights[i].departureTime;
+        delete newFlights[i].arrivalTime;
+        newFlights[i] = flights[i];
         // Deep copy the bookings object
         if(flights[i].bookingCount>0)
         newFlights[i].setBookings(flights[i].bookings, int(flights[i].bookingCount));
@@ -177,6 +202,8 @@ void Airline::addFlight(Flight * list,int number){
     }
 
     for (int j = 0; j < number; j++) {
+        delete newFlights[i].departureTime;
+        delete newFlights[i].arrivalTime;
         newFlights[i]=list[j];
         // Deep copy the bookings object
         if(list[j].bookingCount>0)
@@ -219,6 +246,8 @@ void Airline::removeFlight(string ident) {
 
     // Move all flights after the flight to remove one position to the left
     for (; i < numFlights - 1; i++) {
+        delete flights[i].departureTime;
+        delete flights[i].arrivalTime;
         flights[i]=flights[i+1];
         // Deep copy the bookings object
         if(flights[i].bookingCount>0)
@@ -233,6 +262,8 @@ void Airline::removeFlight(string ident) {
     // Reduce the size of the flights array
     Flight* temp = new Flight[--numFlights];
     for (i = 0; i < numFlights; i++) {
+        delete temp[i].departureTime;
+        delete temp[i].arrivalTime;
         temp[i]=flights[i];
         // Deep copy the bookings object
         if(flights[i].bookingCount>0)
@@ -287,7 +318,8 @@ int Airline::getNumFlights() const {
 }
 
 // Update the flight identifier based on the airline name
-void Airline::updateFlightIdent(Flight & flight){   
+void Airline::updateFlightIdent(Flight & flight){
+    bool hasInitial = false;   
     // Initialize the identifier with the initials of the airline name
     string initial = "";
     for (char elem : airLineName) {
@@ -295,6 +327,16 @@ void Airline::updateFlightIdent(Flight & flight){
             initial += elem;
         }
     }
+
+    for(char elem: flight.flightIdent){
+        for (char elem2 : initial) {
+            if (elem == elem2) {
+                hasInitial = true;
+                break;
+            }
+        }
+    }
+    if(!hasInitial)
     // Append the initial to the flight identifier
     flight.flightIdent = initial + flight.flightIdent;
 }

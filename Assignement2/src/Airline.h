@@ -13,6 +13,7 @@ class Airline
 {
 friend class Booking;// Friend class
 private:
+    static int copyCount; /**< The count of total copies created. */
     const string airLineName; /**< The name of the airline. */
     string airLineAddress; /**< The address of the airline. */
     string airLinePhone; /**< The phone number of the airline. */

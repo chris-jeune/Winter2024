@@ -24,7 +24,7 @@ Flight::Flight(const string dep, const string arr, const Time & depTime, const T
 }
 
 // Copy constructor
-Flight::Flight(const Flight& obj) : departure(obj.departure), arrival(obj.arrival), departureTime(new Time(*obj.departureTime)), arrivalTime(new Time(*obj.arrivalTime)), flightIdent(obj.flightIdent), bookingCount(obj.bookingCount), flightDuration(obj.flightDuration) {
+Flight::Flight(const Flight& obj) : departure(obj.departure), arrival(obj.arrival), departureTime(new Time(*obj.departureTime)), arrivalTime(new Time(*obj.arrivalTime)), flightIdent(obj.flightIdent), bookingCount(obj.bookingCount), flightDuration(obj.flightDuration) {    
     // Copy bookings from the source object to the current object
     if (bookingCount > 0) {
         // Allocate memory for the bookings array
@@ -102,16 +102,18 @@ inline int Flight::flightDurationCalc() const {
     // Get the hour and minute of the departure time
     int depHour = departureTime->getHour();
     int depMin = departureTime->getMinute();
+    int depSec = departureTime->getSecond();
 
     // Get the hour and minute of the arrival time
     int arrHour = arrivalTime->getHour();
     int arrMin = arrivalTime->getMinute();
+    int arrSec = arrivalTime->getSecond();
 
     // Convert the departure time to minutes
-    int depTime = (depHour * 60) + depMin;
+    int depTime = (depHour * 60) + depMin + (depSec / 60);
 
     // Convert the arrival time to minutes
-    int arrTime = (arrHour * 60) + arrMin;
+    int arrTime = (arrHour * 60) + arrMin + (arrSec / 60);
 
     // Calculate the duration by subtracting the departure time from the arrival time
     int duration = arrTime - depTime;
@@ -179,9 +181,6 @@ void Flight::addBooking(Booking* b) {
 
 // sets the bookings array
 void Flight::setBookings(Booking* booking, int count) {
-    if (bookingCount > 0) {
-        delete[] bookings;
-    }
     bookings = new Booking[count];
     for(int i = 0; i < count; i++) {
         bookings[i]=booking[i];

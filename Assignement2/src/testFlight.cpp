@@ -69,7 +69,7 @@ void testSetters(){
     f.printFlight();
 }
 
-int main1(){
+int main3(){
     // testDefaultConstructor();
     // cout<<endl<<endl;
     // testParameterizedConstructor();
@@ -78,7 +78,7 @@ int main1(){
     // cout<<endl<<endl;
     // testAccesserAndDuration();
     // cout<<endl<<endl;
-    testSetters();
+    // testSetters();
     return 0;
 }
 

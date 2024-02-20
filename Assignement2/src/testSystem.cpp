@@ -51,6 +51,39 @@ void testAirlineCreation() {
     cout << "Airline Phone: " << airline.getAirLinePhone() << endl;
 }
 
+// Test creating airline with flights
+void testAirlineCreationWithFlights() {
+    cout << "Creating an airline" << endl;
+    Flight f = createRandomFlight();
+    Flight f2 = createRandomFlight();
+    Flight f3 = createRandomFlight();
+    Flight tab[3] = {f, f2, f3};
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890",tab,3);
+    cout << "Airline created" << endl;
+    cout << "Listing all flights from Airline " << airline.getAirLineName() << endl;
+    airline.listFlights();
+}
+
+// Test function for copy constructor
+void testAirlineCopy(){
+    cout << "Creating an airline" << endl;
+    Flight f = createRandomFlight();
+    Flight f2 = createRandomFlight();
+    Flight f3 = createRandomFlight();
+    Flight tab[3] = {f, f2, f3};
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890",tab,3);
+    cout << "Airline created" << endl;
+    cout << "Airline Name: " << airline.getAirLineName() << endl;
+    cout << "Airline Address: " << airline.getAirLineAddress() << endl;
+    cout << "Airline Phone: " << airline.getAirLinePhone() << endl;
+    cout << "Creating a copy of the airline" << endl;
+    Airline airline2(airline);
+    cout << "Airline copied" << endl;
+    cout << "Airline Name: " << airline2.getAirLineName() << endl;
+    cout << "Airline Address: " << airline2.getAirLineAddress() << endl;
+    cout << "Airline Phone: " << airline2.getAirLinePhone() << endl;
+}
+
 // Test function to demonstrate adding flights using an array
 void testAddingFlightsArray() {
     cout << "Creating an airline" << endl;
@@ -71,7 +104,7 @@ void testAddingFlightsParam() {
     cout << "Creating an airline" << endl;
     Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
     cout << "Airline created" << endl;
-    cout << "Flight created" << endl;
+    cout << "Adding flight" << endl;
     airline.addFlight("New York", "Los Angeles", Time(9, 30, 0), Time(12, 0, 0));
     cout << "Listing all flights from Airline " << airline.getAirLineName() << endl;
     airline.listFlights();
@@ -103,6 +136,26 @@ void testAddingFlightsArrayNotEmpty() {
     cout << "Flight created" << endl;
     airline.addFlight(f4);
     airline.addFlight(tab, 3);
+    cout << "Listing all flights from Airline " << airline.getAirLineName() << endl;
+    airline.listFlights();
+}
+
+// Test function to demonstrate adding flights to a non-empty airline
+void testAddingFlightsParamNotEmpty() {
+    cout << "Creating an airline" << endl;
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890", 0);
+    cout << "Airline created" << endl;
+    cout << "Flight created" << endl;
+    Flight f(createRandomFlight());
+    Flight f2(createRandomFlight());
+    Flight f3(createRandomFlight());
+    Flight f4("New York", "Los Angeles", Time(9, 30, 0), Time(12, 0, 0));
+    cout << "Flight created" << endl;
+    airline.addFlight(f4);
+    airline.addFlight("New York", "Los Angeles", Time(9, 30, 0), Time(12, 0, 0));
+    airline.addFlight(f);
+    airline.addFlight(f2);
+    airline.addFlight(f3);
     cout << "Listing all flights from Airline " << airline.getAirLineName() << endl;
     airline.listFlights();
 }
@@ -160,9 +213,6 @@ void testAirlineSetters(){
     cout<< "Airline Name: " << airline.getAirLineName() << endl;
     cout<< "Airline Address: " << airline.getAirLineAddress() << endl;
     cout<< "Airline Phone: " << airline.getAirLinePhone() << endl;
-    cout<<"Setting new name"<<endl;
-    airline.setAirLineName("NewCoenAir");
-    cout<< "Airline Name: " << airline.getAirLineName() << endl;
     cout<<"Setting new address"<<endl;
     airline.setAirLineAddress("5678 Main St");
     cout<< "Airline Address: " << airline.getAirLineAddress() << endl;
@@ -257,8 +307,65 @@ void testCancelBooking(){
     p.listBookings();
 }
 
-int main(){
+// Test copying passengers with bookings
+void testCopyPassBookings(){
+    cout << "Creating a booking\n" << endl;
+    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
+    Flight f = createRandomFlight();
+    Flight f2 = createRandomFlight();
+    Flight f3 = createRandomFlight();
+    Booking b(p,  f);
+    Booking b4(p, f2);
+    Booking b7(p, f3);
+    cout<<"\nList of bookings from passenger"<<endl;
+    p.listBookings();
+    cout<< "\nCopying passenger\n"<<endl;
+    Passenger p2(p);
+    p2.listBookings();
+}
+
+// Test copying flights with bookings
+void testCopyFlightBookings(){
+    cout << "Creating a booking\n" << endl;
+    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
+    Flight f = createRandomFlight();
+    Booking b(p,  f);
+    Booking b4(p, f);
+    Booking b7(p, f);
+    cout<<"\nList of bookings from flight"<<endl;
+    f.listBookings();
+    cout<< "\nCopying flight\n"<<endl;
+    Flight f5(f);
+    f5.listBookings();
+}
+
+// test copying airlines with flights with bookings
+void testCopyAirlineBooking(){
+    cout << "Creating an airline" << endl;
+    Passenger p("John Doe", "8 rue de Maisonneuve", "123456789");
+    Flight f = createRandomFlight();
+    Flight f2 = createRandomFlight();
+    Flight f3 = createRandomFlight();
+    Flight tab[3] = {f, f2, f3};
+    Booking b(p,  tab[0]);
+    Booking b4(p, tab[1]);
+    Booking b7(p, tab[2]);
+    Airline airline("CoenAir", "1234 Main St", "123-456-7890",tab,3);
+    cout << "Airline created" << endl;
+    cout << "Listing all flights from Airline " << airline.getAirLineName() << endl;
+    airline.listFlights();
+    cout << "Creating a copy of the airline" << endl;
+    Airline airline2(airline);
+    cout << "Airline copied" << endl;
+    cout << "Listing all flights from Airline " << airline2.getAirLineName() << endl;
+    airline2.listFlights();
+
+}
+
+int main2(){
     // testAirlineCreation();
+    // testAirlineCreationWithFlights();
+    // testAirlineCopy();
     // testBookingCreation();
     // testAddingFlightsArray();
     // testAddingFlightsParam();
@@ -269,6 +376,9 @@ int main(){
     // testRemoveFlight();
     // testAirlineSetters();
     // testAirlineListing();
-    testCancelBooking();
+    // testCancelBooking();
+    // testCopyPassBookings();
+    // testCopyFlightBookings();
+    testCopyAirlineBooking();
     return 0;
 }

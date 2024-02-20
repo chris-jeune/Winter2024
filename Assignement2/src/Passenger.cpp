@@ -31,7 +31,7 @@ Passenger::Passenger(const Passenger &obj) : name(obj.name), address(obj.address
         bookings = new Booking[bookingCount];
         for (int i = 0; i < bookingCount; i++)
         {
-            bookings[i]=obj.bookings[i];
+            bookings[i]=Booking(obj.bookings[i]);
             bookings[i].setPassenger(this);
         }
     }

@@ -54,11 +54,11 @@ void testSettersPass() {
     p.printPassenger();
 }
 
-int main2() {
+int main() {
     // testDefaultConstructorPass();
     // testParameterizedConstructorPass();
     // testCopyConstructorPass();
     // testGettersPass();
-     testSettersPass();
+    testSettersPass();
     return 0;
 }
