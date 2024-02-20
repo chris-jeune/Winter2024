@@ -44,7 +44,6 @@ Passenger::~Passenger()
     {
         delete[] bookings;
     }
-    passengerCount--;
 }
 
 // Getters

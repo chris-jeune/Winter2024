@@ -13,7 +13,7 @@ class Airline
 {
 friend class Booking;// Friend class
 private:
-    string airLineName; /**< The name of the airline. */
+    const string airLineName; /**< The name of the airline. */
     string airLineAddress; /**< The address of the airline. */
     string airLinePhone; /**< The phone number of the airline. */
     int numFlights; /**< The number of flights of the airline. */

@@ -28,7 +28,7 @@ Airline::Airline(const Airline &obj) : airLineName(obj.airLineName), airLineAddr
         flights[i] = obj.flights[i];
         // Deep copy the bookings object
         if(obj.flights[i].bookingCount > 0)
-            flights[i].setBookings(obj.flights[i].bookings, int(obj.flights[i].bookingCount));
+        flights[i].setBookings(obj.flights[i].bookings, int(obj.flights[i].bookingCount));
         // Deep copy the departure time object
         flights[i].setDepartureTime(Time(obj.flights[i].getDepartureTime()));
         // Deep copy the arrival time object
@@ -76,10 +76,6 @@ string Airline::getAirLinePhone() const {
 }
 
 // Setters
-void Airline::setAirLineName(const string&name) {
-    airLineName = name;
-}
-
 void Airline::setAirLineAddress(const string&address) {
     airLineAddress = address;
 }
