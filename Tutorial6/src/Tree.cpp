@@ -103,7 +103,7 @@ int Tree::findMax(Node *& node){
 }
 
 void Tree::remove(Node *& node, int value){
-	if (root==nullptr)
+	if (node==nullptr)
 		return;
 	else if(node->getValue()==value)
 		return;
