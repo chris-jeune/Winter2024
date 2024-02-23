@@ -9,6 +9,7 @@ public:
     Node();
     Node(int);
     int getValue();
+    void setValue(int value);
 };
 
 #endif // NODE_H_

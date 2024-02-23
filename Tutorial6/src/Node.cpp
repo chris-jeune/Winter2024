@@ -13,3 +13,7 @@ Node::Node(int value) {
 int Node::getValue() {
     return value;
 }
+
+void Node::setValue(int value) {
+    this->value = value;
+}

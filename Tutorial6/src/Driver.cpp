@@ -16,13 +16,13 @@ void testFindMin(){
     tree.insert(7);
     cout<<"Test find min function"<<endl;
     tree.inorder();
-    cout<<"The min is "<<tree.findMin()<<endl;
+    cout<<"\nThe min is "<<tree.findMin()<<endl;
 }
 
 void testFindMax(){
     Tree tree(8);
     tree.insert(3);
-    tree.insert(10);;
+    tree.insert(10);
     tree.insert(1);
     tree.insert(14);
     tree.insert(13);
@@ -31,7 +31,7 @@ void testFindMax(){
     tree.insert(7);
     cout<<"Test find max function"<<endl;
     tree.inorder();
-    cout<<"The max is "<<tree.findMax()<<endl;
+    cout<<"\nThe max is "<<tree.findMax()<<endl;
 }
 
 void testRemove(){
@@ -46,7 +46,7 @@ void testRemove(){
     tree.insert(7);
     cout<<"Test find remove function"<<endl;
     tree.inorder();
-    cout<<"Removing 10"<<endl;
+    cout<<"\nRemoving 10"<<endl;
     tree.remove(10);
     tree.inorder();
 }
@@ -54,7 +54,7 @@ void testRemove(){
 
 int main(){
     testFindMin();
-    // testFindMax();
-    // testRemove();
+    testFindMax();
+    testRemove();
     return 0;
 }

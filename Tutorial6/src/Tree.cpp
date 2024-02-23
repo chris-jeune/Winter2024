@@ -90,7 +90,7 @@ int Tree::findMin(Node * & node){
 }
 
 int Tree::findMin(){
-	findMin(root);
+	return findMin(root);
 }
 
 int Tree::findMax(Node *& node){
@@ -102,15 +102,35 @@ int Tree::findMax(Node *& node){
 		return findMax(node->right);
 }
 
-void Tree::remove(Node *& node, int value){
-	if (node==nullptr)
-		return;
-	else if(node->getValue()==value)
-		return;
-	remove(node->left, value);
-	remove(node->right, value);
+int Tree::findMax() {
+	return findMax(root);
+}
+
+Node* Tree::remove(Node *& node, int value){
+	if (node->getValue() > value)
+		node->left=remove(node->left, value);
+	else if (node->getValue() < value)
+		node->right=remove(node->right, value);
+
+	else {
+		if (node->right == nullptr) {
+			return node->left;
+		}
+		else if (node->left == nullptr) {
+			return node->right;
+		}
+
+		else {
+			int min=findMin(node->right);
+			node-> right= remove(node, min);
+			node->setValue(min);
+		}
+		
+	}
+
+	return node;
 }
 
 void Tree::remove(int value){
-	remove(root, value);
+	root = remove(root, value);
 }
