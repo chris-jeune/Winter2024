@@ -134,3 +134,46 @@ Node* Tree::remove(Node *& node, int value){
 void Tree::remove(int value){
 	root = remove(root, value);
 }
+
+void Tree::dfs(Node* node, std::vector<Node*>& nodes) {
+	if (node == nullptr)
+		return;
+
+	nodes.push_back(node);
+	dfs(node->left, nodes);
+	dfs(node->right, nodes);
+}
+
+std::vector<Node*> Tree::dfs() {
+	std::vector<Node*> nodes;
+	dfs(root, nodes);
+	return nodes;
+}
+
+void Tree::bfs(std::vector<Node*>& currentLevel, std::vector<Node*>& nodes) {
+	if (currentLevel.empty())
+		return;
+
+	std::vector<Node*> nextLevel;
+	for (auto node : currentLevel) {
+		nodes.push_back(node);
+		if (node->left != nullptr)
+			nextLevel.push_back(node->left);
+		if (node->right != nullptr)
+			nextLevel.push_back(node->right);
+	}
+
+	bfs(nextLevel, nodes);
+}
+
+std::vector<Node*> Tree::bfs() {
+	std::vector<Node*> final;
+	if(root==nullptr)
+		return final;
+	
+	vector<Node*> currentLevel;
+	currentLevel.push_back(root);
+
+	bfs(currentLevel, final);
+	return final;
+}

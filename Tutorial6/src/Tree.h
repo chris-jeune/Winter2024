@@ -13,7 +13,8 @@ private:
     int findMin(Node*&node);
     int findMax(Node*&node);
     Node* remove(Node*&node, int value);
-	std::vector<Node*> dfs(Node* node, std::vector<Node*>& nodes);
+	void dfs(Node* node, std::vector<Node*>& nodes);
+	void bfs(std::vector<Node*>& currentLevel, std::vector<Node*>& nodes);
 
 public:
 	Tree();
