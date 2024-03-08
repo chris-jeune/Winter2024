@@ -122,7 +122,7 @@ Node* Tree::remove(Node *& node, int value){
 
 		else {
 			int min=findMin(node->right);
-			node-> right= remove(node, min);
+			node-> right= remove(node->right, min);
 			node->setValue(min);
 		}
 		
