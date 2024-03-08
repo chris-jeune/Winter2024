@@ -12,7 +12,7 @@ private:
 	void postorder(Node*& node);
     int findMin(Node*&node);
     int findMax(Node*&node);
-    void remove(Node*&node, int value);
+    Node* remove(Node*&node, int value);
 	std::vector<Node*> dfs(Node* node, std::vector<Node*>& nodes);
 
 public:
