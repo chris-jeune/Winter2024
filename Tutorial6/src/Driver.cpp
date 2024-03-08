@@ -1,5 +1,6 @@
 #include "Tree.h"
 #include "Node.h"
+#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -46,15 +47,51 @@ void testRemove(){
     tree.insert(7);
     cout<<"Test find remove function"<<endl;
     tree.inorder();
-    cout<<"\nRemoving 10"<<endl;
-    tree.remove(10);
+    cout << "\nRemoving 8" << endl;
+    tree.remove(8);
     tree.inorder();
+}
+
+void testSearch(){
+Tree t1;
+t1.insert(10);
+t1.insert(5);
+t1.insert(20);
+t1.insert(4);
+t1.insert(8);
+t1.insert(15);
+t1.insert(48);
+t1.insert(1);
+t1.insert(9);
+t1.insert(16);
+
+cout<<endl<<"Testing breadth-first search"<<endl;
+for (auto node: t1.bfs()){
+    cout<< node->getValue()<<" ";
+}
+
+cout<<endl<<"Testing depth-first search"<<endl;
+for (auto node: t1.dfs()){
+    cout<< node->getValue()<<" ";
+}
+t1.remove(10);
+cout<<endl << "Testing breadth-first search after removing" << endl;
+for (auto node: t1.bfs()){
+    cout<< node->getValue()<<" ";
+}
+
+cout<<endl<<"Testing depth-first search after removing"<<endl;
+for (auto node: t1.dfs()){
+    cout<< node->getValue()<<" ";
+}
+
 }
 
 
 int main(){
-    testFindMin();
-    testFindMax();
-    testRemove();
+    // testFindMin();
+    // testFindMax();
+    //testRemove();
+    testSearch();
     return 0;
 }
