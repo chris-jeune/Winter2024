@@ -28,7 +28,6 @@ public:
     void remove(int value);
 	std::vector<Node*> bfs();
 	std::vector<Node*> dfs();
-
 };
 
 #endif
