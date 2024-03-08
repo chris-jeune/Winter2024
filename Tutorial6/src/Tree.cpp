@@ -107,6 +107,8 @@ int Tree::findMax() {
 }
 
 Node* Tree::remove(Node *& node, int value){
+	if (node == nullptr)
+		return node;
 	if (node->getValue() > value)
 		node->left=remove(node->left, value);
 	else if (node->getValue() < value)
@@ -127,8 +129,8 @@ Node* Tree::remove(Node *& node, int value){
 		}
 		
 	}
-
 	return node;
+	
 }
 
 void Tree::remove(int value){
@@ -138,7 +140,7 @@ void Tree::remove(int value){
 void Tree::dfs(Node* node, std::vector<Node*>& nodes) {
 	if (node == nullptr)
 		return;
-
+		
 	nodes.push_back(node);
 	dfs(node->left, nodes);
 	dfs(node->right, nodes);
@@ -151,19 +153,20 @@ std::vector<Node*> Tree::dfs() {
 }
 
 void Tree::bfs(std::vector<Node*>& currentLevel, std::vector<Node*>& nodes) {
-	if (currentLevel.empty())
+	if(currentLevel.empty())
 		return;
 
 	std::vector<Node*> nextLevel;
-	for (auto node : currentLevel) {
+	for (auto node:currentLevel){
 		nodes.push_back(node);
-		if (node->left != nullptr)
+		if (node->left != nullptr) 
 			nextLevel.push_back(node->left);
-		if (node->right != nullptr)
+		if(node->right!=nullptr)
 			nextLevel.push_back(node->right);
 	}
 
 	bfs(nextLevel, nodes);
+
 }
 
 std::vector<Node*> Tree::bfs() {
