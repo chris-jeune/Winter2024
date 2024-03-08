@@ -2,6 +2,7 @@
 #define TREE_H_
 
 #include "Node.h"
+#include <vector>
 
 class Tree {
 private: 
@@ -11,7 +12,8 @@ private:
 	void postorder(Node*& node);
     int findMin(Node*&node);
     int findMax(Node*&node);
-    Node * remove(Node*&node, int value);
+    void remove(Node*&node, int value);
+	std::vector<Node*> dfs(Node* node, std::vector<Node*>& nodes);
 
 public:
 	Tree();
@@ -23,6 +25,8 @@ public:
     int findMin();
     int findMax();
     void remove(int value);
+	std::vector<Node*> bfs();
+	std::vector<Node*> dfs();
 
 };
 
