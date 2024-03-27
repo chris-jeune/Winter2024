@@ -14,20 +14,21 @@ public:
 
     void loadData() override{
         for (int i=0; i<data.size(); i++){
-                std::fill(data[i].begin(), data[i].end(), valueGen());
+            for(int j=0; j<data[0].size();j++)
+                 data[i][j]=valueGen();
         }
 
     }
     
-    RankTwoTensor operator=(const RankTwoTensor& obj){
+    RankTwoTensor& operator=(const RankTwoTensor& obj){
         if(this!= &obj){
-        RankTwoTensor newObj(obj.data.size(), obj.data[0].size());
+        data.resize(obj.data.size());
         for(int i=0;i<data.size();i++){
+            data[i].resize(obj.data[i].size());
             for(int j=0;j<data[i].size();j++){
-                 newObj.data[i][j]=obj.data[i][j];
+                data[i][j]=obj.data[i][j];
             }
         }
-        return newObj;
         
         }
         return *this;
@@ -65,7 +66,7 @@ public:
     }
 
     //postfix
-    RankTwoTensor operator--(){
+    RankTwoTensor operator--(int){
         RankTwoTensor t=*this;
         for(int i=0; i<data.size(); i++){
             for (int j=0; j<data[i].size(); j++){

@@ -1,21 +1,29 @@
 #include "RankOneTensor.h"
+#include "RankTwoTensor.h"
 #include <iostream>
 #include <fstream>
 
 using namespace std;
 
-void testTensorStreamOperator(){
+void testOutputStreamOperator(){
    	RankOneTensor t1(3);
+	RankTwoTensor t3(3,2);
 	t1.loadData();
+	t3.loadData();
 
 	cout << t1 << endl;
+	cout<< t3<< endl;
 
 	RankOneTensor t2(3);
+	RankTwoTensor t4(3,2);
 	t2.loadData();
+	t4.loadData();
 	cout << t2 <<endl;
+	cout<< t4<<endl;
 
-
-	cout<< t1+t2<< endl<< "Hello Coen244";
+	cout<<"Testing operator+ overloading"<<endl;
+	cout<< t1+t2<< "Hello Coen244"<<endl;
+	cout<< t3+t4<< "Hello Coen244"<<endl;
 
 }
 
@@ -25,16 +33,25 @@ void testAssignment(){
 
 	cout << t1 << endl;
 
-	RankOneTensor t2(3);
-	t2.loadData();
-	cout << t2 <<endl;
-
-	RankOneTensor t3=t2;
+	RankOneTensor t3(2);
+	t3.loadData();
 	cout<<t3<<endl;
 
 	t3=t1;
 	cout<<t3<<endl;
 
+	RankTwoTensor t4(3,2);
+	t4.loadData();
+
+	cout<<t4<<endl;
+
+	RankTwoTensor t5(2,3);
+	t5.loadData();
+	cout<<t5<<endl;
+
+	t5=t4;
+	cout<<t5<<endl;
+	
 }
 
 void testFileStreamUsingOperator(){
@@ -74,10 +91,10 @@ void testIncrementDecrement(){
 }
 
 int main(){
-    //testTensorStreamOperator();
-	//testAssignment();
-	//testFileStreamUsingOperator();
+    // testOutputStreamOperator();
+	testAssignment();
+	// testFileStreamUsingOperator();
 	// testInput();
-	testIncrementDecrement();
+	// testIncrementDecrement();
     return 0;
 }

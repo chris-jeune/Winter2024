@@ -51,13 +51,13 @@ public:
         return t;
     }
 
-    RankOneTensor operator=(const RankOneTensor& obj){
-        if(this!= &obj){
-            RankOneTensor newObj(obj.data.size());
-            for (int i=0; i<obj.data.size();i++){
-                newObj.data[i]=obj.data[i];
+    RankOneTensor& operator=(const RankOneTensor& obj){
+       if(this!= &obj){
+            // Perform the assignment operation
+            data.resize(obj.data.size());
+            for (int i = 0; i < obj.data.size(); i++) {
+                data[i] = obj.data[i];
             }
-            return newObj;
         }
         return *this;
     }
