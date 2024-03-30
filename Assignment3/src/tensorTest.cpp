@@ -58,19 +58,33 @@ void testAssignment()
 void testFileStreamUsingOperator()
 {
 	ofstream outFile("rank1tensor.txt");
+	ofstream outFile2("rank2tensor.txt");
 	if (!outFile.is_open())
 	{
-		cerr << "Error opening file!" << endl;
+		cerr << "Error opening first file!" << endl;
 		exit(1);
 	}
+
+	if (!outFile2.is_open())
+	{
+		cerr << "Error opening second file!" << endl;
+		exit(1);
+	}
+
 	RankOneTensor t(2);
 	t.loadData();
+	
+	RankTwoTensor t2(3, 2);
+	t2.loadData();
 
 	cout << t << endl;
+	cout << t2 << endl;
 	outFile << t << endl;
+	outFile2 << t2 << endl;
 
 	outFile.close();
-	cout << "Data written to rank1tensor.txt" << endl;
+	outFile2.close();
+	cout << "Data written to rank1tensor.txt and rank2tensor.txt" << endl;
 }
 
 void testInput()
