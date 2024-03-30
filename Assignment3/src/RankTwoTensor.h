@@ -12,6 +12,8 @@ private:
 public:
     RankTwoTensor(int rows, int cols): data(rows, std::vector<double>(cols)){}
 
+    ~RankTwoTensor() override {}
+    
     void loadData() override{
         for (int i=0; i<data.size(); i++){
             for(int j=0; j<data[0].size();j++)
@@ -76,89 +78,20 @@ public:
         return t;
     }
 
-    RankTwoTensor operator+(const RankTwoTensor& obj){
-        if(data.size()>=obj.data.size()){
-            if(data[0].size()>=obj.data[0].size()){
-                RankTwoTensor newObj(data.size(), data[0].size());
-                int i=0;
-                for(; i<obj.data.size();i++){
-                    int j=0;
-                    for(;j<obj.data[i].size();j++){
-                        newObj.data[i][j]= data[i][j]+obj.data[i][j];
-                    }
-                    for(;j<data[i].size();j++){
-                        newObj.data[i][j]= data[i][j];
-                    }
-                }
-                for(; i<data.size();i++){
-                    for(int j=0;j<data[i].size();j++){
-                        newObj.data[i][j]= data[i][j];
-                    }
-                }
-                return newObj;
-            }
-            else{
-                RankTwoTensor newObj(data.size(), obj.data[0].size());
-                int i=0;
-                for(; i<obj.data.size();i++){
-                    int j=0;
-                    for(;j<data[i].size();j++){
-                        newObj.data[i][j]= data[i][j]+obj.data[i][j];
-                    }
-                    for(;j<obj.data[i].size();j++){
-                        newObj.data[i][j]= obj.data[i][j];
-                    }
-                }
-                for(; i<data.size();i++){
-                    for(int j=0;j<obj.data[i].size();j++){
-                        newObj.data[i][j]= obj.data[i][j];
-                    }
-                }
-                return newObj;
-            }
-        }
-        else{
-            if(data[0].size()>=obj.data[0].size()){
-                RankTwoTensor newObj(obj.data.size(), data[0].size());
-                int i=0;
-                for(; i<data.size();i++){
-                    int j=0;
-                    for(;j<obj.data[i].size();j++){
-                        newObj.data[i][j]= data[i][j]+obj.data[i][j];
-                    }
-                    for(;j<data[i].size();j++){
-                        newObj.data[i][j]= data[i][j];
-                    }
-                }
-                for(; i<obj.data.size();i++){
-                    for(int j=0;j<data[i].size();j++){
-                        newObj.data[i][j]= data[i][j];
-                    }
-                }
-                return newObj;
-            }
-            else{
-                RankTwoTensor newObj(obj.data.size(), obj.data[0].size());
-                int i=0;
-                for(; i<data.size();i++){
-                    int j=0;
-                    for(;j<data[i].size();j++){
-                        newObj.data[i][j]= data[i][j]+obj.data[i][j];
-                    }
-                    for(;j<obj.data[i].size();j++){
-                        newObj.data[i][j]= obj.data[i][j];
-                    }
-                }
-                for(; i<obj.data.size();i++){
-                    for(int j=0;j<obj.data[i].size();j++){
-                        newObj.data[i][j]= obj.data[i][j];
-                    }
-                }
-                return newObj;
-            }
-        }
+    RankTwoTensor operator+(const RankTwoTensor& obj) {
+    int rows = max(data.size(), obj.data.size());
+    int cols = max(data[0].size(), obj.data[0].size());
+    RankTwoTensor newObj(rows, cols);
 
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            double val1 = (i < data.size() && j < data[i].size()) ? data[i][j] : 0;
+            double val2 = (i < obj.data.size() && j < obj.data[i].size()) ? obj.data[i][j] : 0;
+            newObj.data[i][j] = val1 + val2;
+        }
     }
+    return newObj;
+}
     
     friend std::ostream& operator<<(std::ostream& os, const RankTwoTensor& tensor){
         os<< "Data: "<<std::endl;
@@ -176,7 +109,7 @@ public:
     }
 
     friend std::istream& operator>>(std::istream& in, RankTwoTensor& tensor){
-        cout<< "Please type in your values to the tensor "<<endl;
+        cout<< "Please type in your values to the RankTwoTensor "<<endl;
         for(int i=0; i<tensor.data.size(); i++){
             for(int j=0; j<tensor.data[i].size(); j++){
                 in >>  tensor.data[i][j];

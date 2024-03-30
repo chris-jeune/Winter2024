@@ -12,6 +12,8 @@ private:
     std::vector<double> gradient;
 public:
     RankOneTensor(int size):data(size),gradient(size) {}
+
+    ~RankOneTensor() override {}
     
     void loadData() override{
         std::fill(data.begin(), data.end(), valueGen());
@@ -63,27 +65,16 @@ public:
     }
     
     RankOneTensor operator+(const RankOneTensor& obj){
-        if(data.size()>=obj.data.size()){
-        RankOneTensor newObj(data.size());
-        int i=0;
-            for (; i<obj.data.size();i++){
-                newObj.data[i]=data[i]+obj.data[i];
-            }
-            for (;i<data.size();i++){
-                newObj.data[i]=data[i];
-            }
-            return newObj;
+        int index= max(data.size(), obj.data.size());
+
+        RankOneTensor newObj(index);
+
+        for (int i=0; i<index;  i++){
+            double val1=(i<data.size())?data[i]:0;
+            double val2=(i<obj.data.size())?obj.data[i]:0;
+            newObj.data[i]=val1+val2;
         }
 
-        RankOneTensor newObj(obj.data.size());
-        int i=0;
-        for (; i<data.size();i++){
-                newObj.data[i]=data[i]+obj.data[i];
-        }
-
-        for(;i<obj.data.size();i++){
-            newObj.data.push_back(obj.data[i]);
-        }
         return newObj;
     }
 
@@ -100,7 +91,7 @@ public:
 
 
     friend std::istream& operator>>(std::istream& in, RankOneTensor& tensor){
-        cout<< "Please type in your values to the tensor "<<endl;
+        cout<< "Please type in your values to the RankOneTensor "<<endl;
         for(size_t i=0; i<tensor.data.size();i++){
             in >> tensor.data[i];
         }

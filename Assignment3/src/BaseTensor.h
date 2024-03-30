@@ -6,6 +6,8 @@
 class BaseTensor{
 
 public: 
+    BaseTensor(){};
+    virtual ~BaseTensor(){};
 
     virtual void loadData() = 0;
 
