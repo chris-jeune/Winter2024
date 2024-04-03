@@ -1,6 +1,7 @@
-#ifndef RankOneTensorTypeTYPE_H_
-#define RankOneTensorTypeTYPE_H_
+#ifndef RANKONETENSORTYPE_H_
+#define RANKONETENSORTYPE_H_
 
+#include "BaseTensor.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -9,12 +10,12 @@ using namespace std;
 
 template <typename T>
 
-class RankOneTensorTypeType: public BaseTensor{
+class RankOneTensorType: public BaseTensor{
 private:
     vector<T> data;
 public:
-    RankOneTensorTypeType():data(0){}
-    RankOneTensorTypeType(int size):data(size){}
+    RankOneTensorType():data(0){}
+    RankOneTensorType(int size):data(size){}
 
     T& operator[](int index){
         return data[index];
@@ -98,6 +99,21 @@ public:
         return newObj;
     }
 
+    void printdata(){
+        cout<<"Printing data:"<<endl;
+        cout<< "Data: [";
+        for (int i = 0; i < data.size(); i++) {
+            cout<<data[i]<<" ";
+             if(i<data.size()-1)
+                cout<<", ";
+        }
+        cout<<']'<<endl;
+    }
+
+    void insertData(T item){
+        data.push_back(item);
+    }
+
     friend std::ostream& operator<<(std::ostream& os, const RankOneTensorType& tensor){
         os<< "Data: [";
         for (size_t i=0; i<tensor.data.size(); i++){
@@ -111,9 +127,9 @@ public:
 
 
     friend std::istream& operator>>(std::istream& in, RankOneTensorType& tensor){
-        cout<< "Please type in your values to the tensor "<<endl;
-        for(size_t i=0; i<tensor.data.size();i++){
-            in >> tensor.data[i];
+        T value;
+        while(getline(in,value,',')){
+            tensor.data.push_back(value);
         }
         return in;
     }

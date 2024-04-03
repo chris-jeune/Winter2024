@@ -5,7 +5,19 @@
 
 using namespace std;
 
-
+void testIot(){
+    IoTDataETL iot;
+    try{
+        iot.loadData("RT_IOT22.txt");
+        int row=0;
+        int col=5;
+        int index = iot.getIndex(iot.getCategory(col));
+        cout<< iot.getCategory(col)<<": "<<iot.getValue(row,col)<<endl;
+        cout<<iot.extractColValues(index);
+    } catch(runtime_error &e){
+        cerr<<e.what()<<endl;
+    }
+}
 void testLoadFile(){
     IoTDataETL file;
     try{
@@ -17,6 +29,7 @@ void testLoadFile(){
 }
 
 int main(){
-    testLoadFile();
+    testIot();
+    //testLoadFile();
     return 0;
 }
