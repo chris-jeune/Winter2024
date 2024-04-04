@@ -133,6 +133,20 @@ public:
         }
         return in;
     }
+
+    bool operator==(const RankOneTensorType& obj){
+        if(data.size()!=obj.data.size())
+            return false;
+        for (int i = 0; i < data.size(); i++) {
+            if(data[i]!=obj.data[i])
+                return false;
+        }
+        return true;
+    }
+
+    bool operator!=(const RankOneTensorType& obj){
+        return !(*this==obj);
+    }
     //overloading operator [],+,++,>>,<<,==,!=
     //void insertData(T item)
 

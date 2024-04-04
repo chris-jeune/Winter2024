@@ -59,7 +59,7 @@ public:
         string token;
         while (getline(lineString, token, ','))
         {
-            cout << token << endl;
+            //cout << token << endl;
             iot_category.push_back(token);
             ++size;
         }
@@ -73,7 +73,7 @@ public:
 
             RankOneTensorType<string> tensor(0);
             lineString >> tensor;
-            cout << tensor << endl;
+            //cout << tensor << endl;
             iot_data.push_back(tensor);
         }
         file.close();

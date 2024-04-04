@@ -8,12 +8,19 @@ using namespace std;
 void testIot(){
     IoTDataETL iot;
     try{
-        iot.loadData("RT_IOT22.txt");
+        iot.loadData("iot-shard.txt");
         int row=0;
         int col=5;
+        cout<<"Correct numeric values: "<<endl;
         int index = iot.getIndex(iot.getCategory(col));
         cout<< iot.getCategory(col)<<": "<<iot.getValue(row,col)<<endl;
-        cout<<iot.extractColValues(index);
+        //cout<<iot.extractColValues(index);
+        col=3;
+        cout<<"Non numeric values: "<<endl;
+        index = iot.getIndex(iot.getCategory(col));
+        cout<<iot.getCategory(col)<<": "<<iot.getValue(row,col)<<endl;
+        //cout<<iot.extractColValues(index);
+
     } catch(runtime_error &e){
         cerr<<e.what()<<endl;
     }
@@ -21,7 +28,7 @@ void testIot(){
 void testLoadFile(){
     IoTDataETL file;
     try{
-    file.loadData("RT_IOT22.txt");
+    file.loadData("iot-shard.txt");
     cout<< file.getValue(0,3);
     }catch(runtime_error &e){
         cerr<<e.what()<<endl;
@@ -29,7 +36,7 @@ void testLoadFile(){
 }
 
 int main(){
-    testIot();
-    //testLoadFile();
+    //testIot();
+    testLoadFile();
     return 0;
 }
