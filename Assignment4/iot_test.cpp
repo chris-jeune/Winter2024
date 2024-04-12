@@ -14,7 +14,7 @@ void testIot(){
         cout<<"Correct numeric values: "<<endl;
         int index = iot.getIndex(iot.getCategory(col));
         cout<< iot.getCategory(col)<<": "<<iot.getValue(row,col)<<endl;
-        //cout<<iot.extractColValues(index);
+        cout<<iot.extractColValues(index);
         col=3;
         cout<<"Non numeric values: "<<endl;
         index = iot.getIndex(iot.getCategory(col));
@@ -36,7 +36,7 @@ void testLoadFile(){
 }
 
 int main(){
-    //testIot();
-    testLoadFile();
+    testIot();
+    // testLoadFile();
     return 0;
 }
