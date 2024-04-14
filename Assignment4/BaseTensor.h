@@ -1,3 +1,6 @@
+//Christian Jeune
+//ID: 40279265
+
 #ifndef BASETENSOR_H_
 #define BASETENSOR_H_
 

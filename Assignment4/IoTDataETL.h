@@ -1,3 +1,6 @@
+// Christian Jeune
+// ID: 40279265
+
 #ifndef IOTDATAETL_H_
 #define IOTDATAETL_H_
 
@@ -26,8 +29,13 @@ public:
         double value{INT_MAX};
         try
         {
+            if (row < 0 || row >= iot_data.size())
+                throw out_of_range("Row index out of range");
+            
             RankOneTensorType<string> tensor = iot_data[row];
 
+            if (col < 0 || col >= iot_category.size())
+                throw out_of_range("Column index out of range");
             value = stod(tensor[col]);
         }
         catch (invalid_argument &e)

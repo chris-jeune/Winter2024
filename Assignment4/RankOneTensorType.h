@@ -1,3 +1,6 @@
+//Christian Jeune
+//ID: 40279265
+
 #ifndef RANKONETENSORTYPE_H_
 #define RANKONETENSORTYPE_H_
 
@@ -75,27 +78,16 @@ public:
     }
     
     RankOneTensorType operator+(const RankOneTensorType& obj){
-        if(data.size()>=obj.data.size()){
-        RankOneTensorType newObj(data.size());
-        int i=0;
-            for (; i<obj.data.size();i++){
-                newObj.data[i]=data[i]+obj.data[i];
-            }
-            for (;i<data.size();i++){
-                newObj.data[i]=data[i];
-            }
-            return newObj;
+        int index= max(data.size(), obj.data.size());
+
+        RankOneTensorType newObj(index);
+
+        for (int i=0; i<index;  i++){
+            double val1=(i<data.size())?data[i]:0;
+            double val2=(i<obj.data.size())?obj.data[i]:0;
+            newObj.data[i]=val1+val2;
         }
 
-        RankOneTensorType newObj(obj.data.size());
-        int i=0;
-        for (; i<data.size();i++){
-                newObj.data[i]=data[i]+obj.data[i];
-        }
-
-        for(;i<obj.data.size();i++){
-            newObj.data.push_back(obj.data[i]);
-        }
         return newObj;
     }
 
@@ -147,8 +139,6 @@ public:
     bool operator!=(const RankOneTensorType& obj){
         return !(*this==obj);
     }
-    //overloading operator [],+,++,>>,<<,==,!=
-    //void insertData(T item)
 
 };
 
