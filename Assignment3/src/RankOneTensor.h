@@ -3,20 +3,25 @@
 
 #include "BaseTensor.h"
 #include <vector>
+#include <iterator>
 #include <iostream>
 
 using namespace std;
 class RankOneTensor : public BaseTensor{
 private:
     std::vector<double> data;
-    std::vector<double> gradient;
 public:
-    RankOneTensor(int size):data(size),gradient(size) {}
+    RankOneTensor():data(){}
+
+    RankOneTensor(int size):data(size) {}
 
     ~RankOneTensor() override {}
     
     void loadData() override{
-        std::fill(data.begin(), data.end(), valueGen());
+        std::vector<double>::iterator it;
+        for(it=data.begin(); it!=data.end(); it++){
+            *it=valueGen();
+        }
     }
 
     //prefix increment

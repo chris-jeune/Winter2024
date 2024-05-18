@@ -1,6 +1,7 @@
 #include "BaseTensor.h"
 #include "RankOneTensor.h"
 #include "RankTwoTensor.h"
+#include "RankThreeTensor.h"
 #include <iostream>
 #include <fstream>
 
@@ -252,12 +253,15 @@ void testDynamicCasting()
 	cout<<"Testing dynamic casting"<<endl;
 
 	BaseTensor *t1= new RankOneTensor(3);
+	t1->loadData();
 	BaseTensor *t2 = new RankTwoTensor(3, 2);
 	RankOneTensor *r1 = new RankOneTensor(3);
+	r1->loadData();
 	RankTwoTensor *r2 = new RankTwoTensor(3, 2);
-
     if (dynamic_cast<RankOneTensor *>(t1)) {
 		cout << endl << "Dynamic casting from BaseTensor to RankOneTensor successful." << endl;
+		cout<< *(dynamic_cast<RankOneTensor*>(t1))<<endl;
+
     } else {
         cout << "Dynamic casting from BaseTensor to RankOneTensor failed." << endl;
     }
@@ -299,6 +303,29 @@ void testDynamicCasting()
 	
 }
 
+void testRankThreeTensor()
+{
+	RankThreeTensor t1(3, 2, 3);
+	t1.loadData();
+	cout << t1<<endl;
+
+	RankThreeTensor t2(3, 2, 3);
+	t2.loadData();
+	cout << t2<<endl;
+
+	cout << "Testing operator+ overloading" << endl;
+	cout << t1 + t2<<endl;
+
+	cout << "Testing operator++ overloading" << endl;
+	cout << t1++;
+	cout << ++t1<<endl;
+
+	cout << "Testing operator-- overloading" << endl;
+	cout << t1--;
+	cout << --t1<<endl;
+
+}
+
 int main()
 {
 	// testOutputStreamOperator();
@@ -308,5 +335,6 @@ int main()
 	// testIncrementDecrement();
 	// testPlusOperator();
 	testDynamicCasting();
+	// testRankThreeTensor();
 	return 0;
 }

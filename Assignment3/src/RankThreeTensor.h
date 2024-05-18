@@ -1,20 +1,21 @@
-#ifndef RANKTWOTENSOR_H_
-#define RANKTWOTENSOR_H_
+#ifndef RANKTHREETENSOR_H_
+#define RANKTHREETENSOR_H_
 
 #include "BaseTensor.h"
+#include "RankTwoTensor.h"
 #include <vector>
 #include <iostream>
 
 using namespace std;
-class RankTwoTensor : public BaseTensor{
+class RankThreeTensor : public BaseTensor{
 private:
-    std::vector<RankOneTensor> data;
+    std::vector<RankTwoTensor> data;
 public:
-    RankTwoTensor(): data(){}
+    RankThreeTensor(): data(){}
 
-    RankTwoTensor(int rows, int cols): data(rows, RankOneTensor(cols)){}
+    RankThreeTensor(int rows, int cols, int floors): data(rows, RankTwoTensor(cols, floors)){}
 
-    ~RankTwoTensor() override {}
+    ~RankThreeTensor() override {}
     
     void loadData() override{
         for(int i=0; i<data.size(); i++){
@@ -22,7 +23,7 @@ public:
         }
     }
     
-    RankTwoTensor& operator=(const RankTwoTensor& obj){
+    RankThreeTensor& operator=(const RankThreeTensor& obj){
         if(this!= &obj){
         data.resize(obj.data.size());
         for(int i=0;i<data.size();i++){
@@ -34,7 +35,7 @@ public:
     }
 
     //prefix
-    RankTwoTensor operator++(){
+    RankThreeTensor operator++(){
         for(int i=0; i<data.size(); i++){
             data[i]++;
         }
@@ -42,8 +43,8 @@ public:
     }
 
     //postfix
-    RankTwoTensor operator++(int){
-        RankTwoTensor t=*this;
+    RankThreeTensor operator++(int){
+        RankThreeTensor t=*this;
         for(int i=0; i<data.size(); i++){
             data[i]++;
         }
@@ -51,7 +52,7 @@ public:
     }
 
     //prefix
-    RankTwoTensor operator--(){
+    RankThreeTensor operator--(){
         for(int i=0; i<data.size(); i++){
             data[i]--;
         }
@@ -59,18 +60,18 @@ public:
     }
 
     //postfix
-    RankTwoTensor operator--(int){
-        RankTwoTensor t=*this;
+    RankThreeTensor operator--(int){
+        RankThreeTensor t=*this;
         for(int i=0; i<data.size(); i++){   
             data[i]--;
         }
         return t;
     }
 
-    RankTwoTensor operator+(const RankTwoTensor& obj) {
+    RankThreeTensor operator+(const RankThreeTensor& obj) {
         int rows = max(data.size(), obj.data.size());
 
-        RankTwoTensor newObj(rows, 0);
+        RankThreeTensor newObj(rows, 0, 0);
 
         for(int i = 0; i < rows; i++) {
             newObj.data[i] = data[i] + obj.data[i];
@@ -79,8 +80,8 @@ public:
         return newObj;
     }
     
-    friend std::ostream& operator<<(std::ostream& os, const RankTwoTensor& tensor){
-        os<< "Two dimension data: "<<std::endl;
+    friend std::ostream& operator<<(std::ostream& os, const RankThreeTensor& tensor){
+        os<< "Three dimension data: "<<std::endl;
         for(int i=0; i<tensor.data.size(); i++){
             os<< tensor.data[i];
         }
@@ -88,8 +89,8 @@ public:
 
     }
 
-    friend std::istream& operator>>(std::istream& in, RankTwoTensor& tensor){
-        cout<< "Please type in your values to the RankTwoTensor "<<endl;
+    friend std::istream& operator>>(std::istream& in, RankThreeTensor& tensor){
+        cout<< "Please type in your values to the RankThreeTensor "<<endl;
         for(int i=0; i<tensor.data.size(); i++){
            in>>tensor.data[i];
         }
@@ -97,4 +98,4 @@ public:
     }
 
 };
-#endif // RANKONETENSOR_H_  
+#endif // RankTwoTensor_H_  
